@@ -1,0 +1,242 @@
+*, *::before, *::after
+  margin: 0
+  +box
+
+body
+  background-color: white
+  color: $black
+  font-family: Montserrat, sans-serif
+
+ul
+  margin: 0
+  padding: 0
+  list-style: none
+
+a
+  text-decoration: none
+
+input[type="number"].no-arrows
+  -moz-appearance: textfield
+  &::-webkit-outer-spin-button, &::-webkit-inner-spin-button
+    -webkit-appearance: none
+    margin: 0
+
+.btn
+  border: none
+  font-family: Montserrat, sans-serif
+  cursor: pointer
+  &_violet
+    padding: 23px 53px
+    color: white
+    font-size: $f20
+    border: 2px solid $violet
+    background-color: $violet
+    +border-radius(35px)
+    cursor: pointer
+    transition: background-color 0.3s ease-in-out, border 0.3s ease-in-out
+    &:focus
+      outline: none
+    &:hover
+      border: 2px solid $lightViolet
+      background-color: $lightViolet
+    &:focus-visible
+      border: 2px solid $darkViolet
+      background-color: $lightViolet
+      transition: background-color 0.1s, border 0.1s
+    &:active
+      border: 2px solid $darkViolet
+      background-color: $darkViolet
+      transition: background-color 0.1s, border 0.1s
+  &_burger
+    padding: 10px
+    position: relative
+    display: flex
+    align-items: center
+    justify-content: left
+    height: 32px
+    width: 48px
+    border: none
+    font-size: 0
+    background-color: inherit
+    z-index: 20
+    cursor: pointer
+    &:focus
+      outline: none
+    &:focus-visible
+      outline: $burgerBtn
+    &:hover
+      span, span::before, span::after
+        //background-color: $themeColor
+        width: 28px
+    span
+      display: block
+      position: relative
+      width: 20px
+      height: 1px
+      background-color: $burgerBtn
+      transition: transform 0.3s, background-color 0.2s ease-out, width 0.2s
+    span::before, span::after
+      content: ''
+      position: absolute
+      left: 0
+      display: block
+      height: 1px
+      background-color: $burgerBtn
+      transition: transform 0.3s ease-in-out, background-color 0.2s ease-out, width 0.2s
+    span::before
+      width: 13px
+      top: -5px
+    span::after
+      width: 28px
+      bottom: -5px
+    &.active span
+      background-color: transparent
+    &.active span::before
+      transform: rotate(45deg)
+      width: 28px
+      top: 0
+    &.active span::after
+      transform: rotate(-45deg)
+      width: 28px
+      bottom: 0
+  &_blue
+    padding: 12px 24px
+    color: white
+    background-color: $themeColor
+    font-size: 16px
+    font-weight: 400
+    line-height: 150%
+  &_transparent
+    padding: 12px 30px
+    background-color: white
+    color: $black
+    font-family: Montserrat, sans-serif
+    font-size: 16px
+    font-weight: 400
+    line-height: 150%
+    border: 1px solid $textGrey
+    transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out, border 0.2s ease-in-out
+    &:hover
+      color: white
+      background-color: $themeColor
+      border: 1px solid $themeColor
+
+.container
+  padding: 0 40px
+  margin: 0 auto
+  max-width: 1480px
+  width: 100%
+  &_body
+    position: relative
+    overflow: hidden
+  &_hd
+    padding: 0
+    margin: 0 auto
+    max-width: 1920px
+    width: 100%
+  &_1240
+    padding: 10px
+    margin: 0 auto
+    max-width: 1240px
+    width: 100%
+
+.bg
+  &_black
+    background-color: $black
+    color: white
+
+.title
+  &_h1
+    max-width: 840px
+    font-family: Montserrat, sans-serif
+    font-size: 80px
+    font-style: normal
+    font-weight: 300
+    line-height: 110%
+  &_h2
+    font-family: Montserrat, sans-serif
+    font-size: 48px
+    font-style: normal
+    font-weight: 400
+
+.backslash
+  padding-right: 60px
+  position: relative
+  &::after
+    content: ''
+    position: absolute
+    right: 16px
+    top: 8px
+    width: 32px
+    height: 2px
+    background-color: $themeColor
+    transform: rotate(60deg)
+
+.overline
+  font-size: 0.6em
+  -ms-transform: translateY(-6px)
+  -o-transform: translateY(-6px)
+  transform: translateY(-6px)
+  position: relative
+  display: inline-block
+
+.granit-effect
+  position: absolute
+  background-image: url("../images/bg_stain.png")
+  top: 0
+  bottom: 0
+  right: 0
+  left: 0
+  opacity: 0.075
+
+.slider
+  &__button-wrapper
+    margin-left: auto
+    display: flex
+    gap: 10px
+  &__btn
+    width: 74px
+    height: 74px
+    -webkit-border-radius: 50%
+    -moz-border-radius: 50%
+    border-radius: 50%
+    border: 1px solid #D9D9D9
+    cursor: pointer
+    position: relative
+    transition: background-color 0.2s ease-in-out, border 0.2s ease-in-out
+    &:hover
+      border: 1px solid $themeColor
+      background-color: $themeColor
+      &::before, &::after
+        background-color: white
+    &::before, &::after
+      transition: background-color 0.2s ease-in-out
+    &_next
+      &::before, &::after
+        content: ''
+        width: 12px
+        height: 2px
+        position: absolute
+        left: 26px
+        background-color: $black
+      &::before
+        top: 32px
+        rotate: 135deg
+      &::after
+        top: 40px
+        rotate: 45deg
+    &_prev
+      &::before, &::after
+        content: ''
+        width: 12px
+        height: 2px
+        position: absolute
+        left: 30px
+        background-color: $black
+      &::before
+        top: 32px
+        rotate: 45deg
+      &::after
+        top: 40px
+        rotate: 135deg
+

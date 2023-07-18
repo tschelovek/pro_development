@@ -1,0 +1,76 @@
+=transform($transform)
+  -moz-transform: $transform
+  -ms-transform: $transform
+  -o-transform: $transform
+  -webkit-transform: $transform
+  transform: $transform
+
+=center()
+  display: flex
+  justify-content: center
+  align-items: center
+
+=space()
+  display: flex
+  justify-content: space-between
+  flex-wrap: wrap
+
+=space-nw()
+  display: flex
+  justify-content: space-between
+
+=top()
+  display: flex
+  justify-content: space-between
+  align-items: flex-start
+
+=round()
+  -webkit-border-radius: 50%
+  -moz-border-radius: 50%
+  border-radius: 50%
+
+=cover()
+  -o-object-fit: cover
+  object-fit: cover
+
+=fit($fit)
+  -o-object-fit: $fit
+  object-fit: $fit
+
+=full()
+  width: 100%
+  height: 100%
+  -o-object-fit: cover
+  object-fit: cover
+
+=border-radius($radius)
+  -webkit-border-radius: $radius
+  -moz-border-radius: $radius
+  border-radius: $radius
+
+=box()
+  -moz-box-sizing: border-box
+  -webkit-box-sizing: border-box
+  box-sizing: border-box
+
+=box-sizing($box-sizing)
+  -moz-box-sizing: $box-sizing
+  -webkit-box-sizing: $box-sizing
+  box-sizing: $box-sizing
+
+=transition()
+  -moz-transition: all 0.4s ease 0s
+  -o-transition: all 0.4s ease 0s
+  -webkit-transition: all 0.4s ease 0s
+  transition: all 0.4s ease 0s
+
+//  MIXIN
+//@mixin font($color: $textBlack, $family: $regular, $weight: 400, $size: 22px, $line: 1.5)
+//  font:
+//    size: $size
+//    family: $family
+//    weight: $weight
+//  color: $color
+//  line-height: $line
+
+
