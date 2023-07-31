@@ -1,5 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
 
+    Fancybox.bind('[data-fancybox]', {
+        hideScrollbar: false,
+    });
+
     const swiper1 = new Swiper('#slider_news', {
         loop: true,
         // autoplay: {
@@ -73,6 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     })
 
+    // Fancybox.show([{ src: "#dialog-content", type: "inline" }]);
 
     /**
      *
@@ -82,6 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
         e.preventDefault();
         e.currentTarget.classList.toggle('active');
         document.querySelector('header .header__menu')?.classList.toggle('active');
+        document.querySelector('header')?.classList.toggle('menu-open');
     })
 
     /**

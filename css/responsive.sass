@@ -2,6 +2,19 @@
   .about .container_hd
     padding-left: 20px
 
+@media only screen and (max-width: 1440px)
+  .hero
+    &__wrapper
+      gap: 80px
+    .title_h1
+      font-size: 72px
+
+  .about
+    &__wrapper
+      gap: 64px
+    &__text
+      gap: 64px
+
 @media only screen and (max-width: 1280px)
   .header
     &__navigation
@@ -21,10 +34,49 @@
           flex-flow: column
           gap: 16px
 
-  .btn_burger
-    display: flex
+
+  .hero
+    .title_h1
+      font-size: 64px
+
+
+  .about
+    padding: 80px 0
+    &__text
+      padding: 0
+
+  .advantages
+    padding: 140px 0
+    &__list
+      padding: 0 60px
+      grid-template-columns: 1fr 1fr
+      grid-column-gap: 60px
+
+  .infrastructure
+    padding: 80px 0
+    &__wrapper
+      flex-flow: column-reverse
+    &__image-wrapper
+      text-align: center
+    &__text
+      max-width: unset
+    &__list
+      margin: 0 auto
+      max-width: 950px
+
 
 @media only screen and (max-width: 1024px)
+  .hero
+    &__wrapper
+      flex-flow: column
+    .title_h1
+      max-width: unset
+
+  .about
+    &__text
+      max-width: unset
+    &__image-wrapper
+      display: none
 
 @media only screen and (max-width: 864px)
 
@@ -32,13 +84,48 @@
   .container
     padding: 0 32px
 
+  .advantages
+    padding: 96px 0
+    &__list
+      padding: 0 24px
+
+  .projects
+    &__header
+      flex-flow: column
+      gap: 0
+    .slider__button-wrapper
+      margin: 0 auto 24px
+
 @media only screen and (max-width: 640px)
   .container
     padding: 0 24px
 
+@media only screen and (max-width: 536px)
+  .title_h2
+    font-size: 42px
+
+  .about
+    &__text
+      flex-flow: column
+    .container_hd
+      padding: 0 8px
+
+  .advantages
+    padding: 64px 0
+    &__list
+      padding: 0 16px
+      grid-template-columns: auto
+
 @media only screen and (max-width: 480px)
   .container
     padding: 0 16px
+
+  .title_h2
+    font-size: 36px
+
+  .infrastructure, .projects, .news
+    padding: 64px 0
+
 
 @media only screen and (max-width: 360px)
   .container

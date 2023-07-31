@@ -7,8 +7,12 @@
     <link rel="apple-touch-icon" href="./apple-touch-icon.png">
     <meta name="theme-color" content="#E6E8EC">
     <title>Title</title>
+
+    <link rel="stylesheet" href="./css/libs/fancybox.css">
+    <link rel="stylesheet" href="./css/libs/swiper-bundle.min.css">
     <link rel="stylesheet" href="./css/style.css">
-    <script defer src="./js/libs/swiper-bundle.min.js"></script>
+    <script type="application/javascript" src="./js/libs/swiper-bundle.min.js"></script>
+    <script type="application/javascript" src="./js/libs/fancybox.umd.js"></script>
     <script defer src="./js/index.js"></script>
     <style>
         .hero {
@@ -21,14 +25,15 @@
             }
         }
     </style>
+
 </head>
 <body>
 <div class="container_body">
 
     <header class="header">
-<!--        <div class="container">-->
+        <div class="container">
             <div class="header__wrapper">
-                <div class="container">
+<!--                <div class="container">-->
                     <div class="header__left-block">
                         <button type="button" id="burgerButton" class="btn_burger header__btn__burger">
                             <span>menu</span>
@@ -47,13 +52,13 @@
                     <div class="header__right-block">
                         <div class="header__controls">
                             <a href="tel:+78122090144" class="contacts__link">+7 (812) 209-01-44</a>
-                            <button type="button" class="btn btn_blue">Отправить заявку</button>
+                            <button type="button" class="btn btn_blue" data-fancybox data-src="#dialog-content">Отправить заявку</button>
                         </div>
                     </div>
-
-                </div>
+<!--                </div>-->
             </div>
-            <div class="header__menu">
+        </div>
+        <div class="header__menu">
                 <div class="container">
                     <div class="header__menu-wrapper">
                         <nav class="nav nav_header">
@@ -89,16 +94,15 @@
                     </div>
                 </div>
             </div>
-<!--        </div>-->
     </header>
 
     <main>
         <section class="hero">
-            <div class="container_hd">
-                <div class="container">
+            <div class="container">
+                <div class="hero__wrapper">
                     <div class="hero__block_left">
                         <h1 class="title_h1">«ПРО Левашово» — земельные участки бизнес-класса в Левашово</h1>
-                        <div>Заезжайте и стройтесь!</div>
+                        <p>Заезжайте и стройтесь!</p>
                     </div>
                     <div class="hero__block_right">
                         <div class="hero__block_right__text">Готовый коттеджный поселок бизнес-класса «сад времени»
@@ -133,7 +137,7 @@
                                 домам!
                             </p>
                             <p>Комфортные участки в уединенном месте недалеко от города:</p>
-                            <ul class="backspace-list">
+                            <ul class="backslash-list">
                                 <li>25 мин. до Петроградской стороны</li>
                                 <li>20 мин. до Васильевского острова</li>
                                 <li>35 мин. до Дворцовой набережной</li>
@@ -545,8 +549,8 @@
                         </p>
                     </div>
                     <div class="slider__button-wrapper">
-                        <div class="slider__btn slider__btn_next" id="btn_projects_next"></div>
                         <div class="slider__btn slider__btn_prev" id="btn_projects_prev"></div>
+                        <div class="slider__btn slider__btn_next" id="btn_projects_next"></div>
                     </div>
                 </div>
                 <div class="swiper" id="slider_projects">
@@ -693,8 +697,8 @@
                         </div>
                     </div>
                     <div class="slider__button-wrapper">
-                        <div class="slider__btn slider__btn_next" id="btn_gallery_next"></div>
                         <div class="slider__btn slider__btn_prev" id="btn_gallery_prev"></div>
+                        <div class="slider__btn slider__btn_next" id="btn_gallery_next"></div>
                     </div>
                 </div>
 
@@ -966,7 +970,7 @@
                                 </div>
                                 <div class="contacts__list__item">
                                     <div class="contacts__list__btn-wrapper">
-                                        <button class="btn btn_blue">Отправить заявку</button>
+                                        <button class="btn btn_blue" data-fancybox data-src="#dialog-content">Отправить заявку</button>
                                     </div>
                                 </div>
                             </div>
@@ -1024,6 +1028,36 @@
         </div>
     </footer>
 
+</div>
+<!--<div id="dialog-content" style="display:none;max-width:500px;">-->
+<div id="dialog-content" class="modal">
+    <div class="modal__title">Заказать обратный звонок</div>
+    <form method="post" action="/webforms/send/" enctype="multipart/form-data" class="modal-form"
+          data-form-ids="popup">
+
+        <input type="hidden" name="system_email_to" value="814">
+        <div class="modal-form__row">
+            <input type="text" name="data[new][vashe_imya]" placeholder="Ваше имя" class="form-input " required="">
+        </div>
+        <div class="modal-form__row">
+            <input type="text" name="data[new][nomer_telefona]" placeholder="Номер телефона"
+                   class="form-input form-input--tel" required="">
+        </div>
+
+
+        <input type="hidden" name="system_form_id" value="155">
+        <input type="hidden" name="ref_onsuccess" value="/webforms/posted/155">
+        <div class="modal-form__row">
+            <label><input type="checkbox" class="notice_cheked" checked="" name="notice"> Отправляя заявку, я
+                соглашаюсь
+                на
+                обработку персональных данных</label>
+        </div>
+        <div class="modal-form__row">
+            <input type="submit" class="btn btn_gold-transparent" value="Заказать звонок">
+        </div>
+    </form>
+    <button data-fancybox-close="" class="fancybox-close-small" title="Close"></button>
 </div>
 </body>
 </html>

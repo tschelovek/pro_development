@@ -5,31 +5,102 @@
   background-repeat: no-repeat
   background-position: center
   background-color: #5B7593
+  &__wrapper
+    display: flex
+    align-items: end
+    gap: 174px
+  &__block
+    &_left
+      .title_h1
+        text-shadow: 0 0 8px black
+      p
+        margin-top: 20px
+        text-shadow: 0 0 8px black
+    &_right
+      max-width: 388px
+      &__text
+        font-size: 16px
+        line-height: 150%
+        text-shadow: 0 0 8px black
+  &__links
+    margin-top: 50px
+    ul
+      display: flex
+      gap: 30px
+    &__item
+      padding: 10px 0
+      position: relative
+      color: white
+      font-size: 14px
+      font-weight: 400
+      line-height: normal
+      text-transform: uppercase
+      &:hover::before
+        width: 100%
+      &::before
+        content: ''
+        position: absolute
+        bottom: 0
+        right: 0
+        left: 0
+        width: 0
+        height: 1px
+        background-color: $themeColor
+        transition: width 0.3s
+        z-index: 20
+      &::after
+        content: ''
+        position: absolute
+        bottom: 0
+        right: 0
+        left: 0
+        height: 1px
+        background-color: white
+        z-index: 19
 
 .advantages
+  padding: 200px 0
   background-color: $lightGrey
   &__list
-    padding: 200px 0
-    display: flex
-    flex-flow: wrap
-    column-gap: 140px
-    row-gap: 70px
+    //display: flex
+    //flex-flow: wrap
+    //column-gap: 140px
+    //row-gap: 70px
+    display: grid
+    grid-template-columns: 328px 404px 256px
+    justify-content: space-between
+    grid-column-gap: 40px
+    grid-row-gap: 70px
   &__item
-    min-width: 220px
-    &_1, &_4
-      flex: 4
-    &_2, &_5
-      flex: 5
-    &_3, &_6
-      flex: 3
+    //min-width: 220px
+    //&_1, &_4
+    //  flex: 5
+    //&_2, &_5
+    //  flex: 6
+    //&_3, &_6
+    //  flex: 4
     &__icon-wrapper
       display: inline-block
+    &__info
+      color: $textGrey
+      font-size: 14px
+      font-weight: 400
+      line-height: 1.7
+      max-width: 224px
+    .title_h3
+      margin: 20px 0 14px
+      font-size: 24px
+      font-weight: 400
+      line-height: 1.4
+      //white-space: nowrap
 
 .infrastructure
   padding: 120px 0
   &__wrapper
     display: flex
     gap: 30px
+  &__image-wrapper img
+    max-width: 100%
   &__text
     margin: 30px 0
     max-width: 570px
@@ -46,6 +117,17 @@
       flex: 1
       display: flex
       min-width: 220px
+      &__text
+        .title_h3
+          font-size: 18px
+          font-weight: 700
+          line-height: 1.6
+        ul
+          padding-left: 20px
+          list-style: disc
+          color: $textGrey
+          li
+            margin-top: 14px
 
 .projects
   padding: 120px 0
@@ -121,10 +203,16 @@
     justify-content: flex-end
     gap: 120px
   &__text
-    padding-top: 60px
+    padding: 60px 0 40px
     display: flex
     gap: 140px
     max-width: 720px
+    &_main
+      p
+        margin-top: 30px
+        font-size: 16px
+        font-weight: 400
+        line-height: 150%
   &__descriptor
     padding-top: 12px
     color: $black
@@ -141,6 +229,9 @@
 .news
   padding: 120px 0 200px
   &__item
+    display: flex
+    flex-flow: column
+    height: 100%
     max-width: 446px
     &__image-wrapper
       max-height: 236px
@@ -148,17 +239,22 @@
     &__text
       padding: 0 16px
       position: relative
+      flex: 1
+      display: flex
+      flex-flow: column
+      gap: 24px
       p
         color: $textGrey
         font-size: 16px
         font-weight: 400
         line-height: 26px
+        //margin-top: auto
       .published
         padding: 6px 10px
         display: inline-flex
         align-items: center
         position: absolute
-        top: -48px
+        top: -18px
         left: 16px
         color: white
         background-color: $themeColor
@@ -169,6 +265,8 @@
         &::before
           margin-right: 6px
           content: url("./icons/clock.svg")
+    &__button-wrapper
+      margin-top: auto
     .title_h3
       margin-top: 30px
       font-size: 18px

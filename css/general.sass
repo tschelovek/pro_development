@@ -154,6 +154,7 @@ input[type="number"].no-arrows
     font-weight: 300
     line-height: 110%
   &_h2
+    color: $black
     font-family: Montserrat, sans-serif
     font-size: 48px
     font-style: normal
@@ -166,11 +167,28 @@ input[type="number"].no-arrows
     content: ''
     position: absolute
     right: 16px
-    top: 8px
+    top: 12px
     width: 32px
-    height: 2px
+    height: 3px
     background-color: $themeColor
-    transform: rotate(60deg)
+    transform: rotate(56deg)
+
+.backslash-list
+  margin-top: 12px
+  padding-left: 20px
+  li
+    margin-top: 8px
+    position: relative
+    &::before
+      content: ''
+      position: absolute
+      left: -20px
+      top: 8px
+      display: block
+      width: 16px
+      height: 3px
+      background-color: $themeColor
+      transform: rotate(56deg)
 
 .overline
   font-size: 0.6em
@@ -211,7 +229,7 @@ input[type="number"].no-arrows
         background-color: white
     &::before, &::after
       transition: background-color 0.2s ease-in-out
-    &_next
+    &_prev
       &::before, &::after
         content: ''
         width: 12px
@@ -225,7 +243,7 @@ input[type="number"].no-arrows
       &::after
         top: 40px
         rotate: 45deg
-    &_prev
+    &_next
       &::before, &::after
         content: ''
         width: 12px
@@ -240,3 +258,9 @@ input[type="number"].no-arrows
         top: 40px
         rotate: 135deg
 
+
+.swiper-slide
+  height: auto
+
+.modal
+  display: none
