@@ -1,15 +1,31 @@
 .footer
   margin-top: -200px
-  background-color: $black
+  padding: 0 0 40px
+  background: #1E2527 url(../images/bg_granit.png)
   &__wrapper
     display: flex
     justify-content: space-between
     align-items: center
+    flex-flow: wrap
+    gap: 40px
   &__logo
     position: relative
     z-index: 20
   &__nav
     position: relative
     z-index: 20
-  &__navigation__list
-    display: flex
+  &__navigation
+    &__list
+      display: flex
+      gap: 12px
+    &__item
+      padding: 4px
+      white-space: nowrap
+      color: white
+      font-family: Montserrat, sans-serif
+      font-size: 14px
+      font-weight: 400
+      line-height: normal
+      transition: color 0.2s ease-in-out
+      &:hover
+        color: $themeColor

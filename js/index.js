@@ -47,14 +47,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const swiper3 = new Swiper('#slider_projects', {
         loop: true,
-        // autoplay: {
-        //     delay: 3000,
-        // },
+        autoplay: {
+            delay: 3000,
+        },
         speed: 1000,
         // pagination: {
         //     el: '.swiper-pagination',
         // },
-        slidesPerView: 3,
+        slidesPerView: 1,
         navigation: {
             nextEl: '#btn_projects_next',
             prevEl: '#btn_projects_prev',
@@ -79,9 +79,62 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Fancybox.show([{ src: "#dialog-content", type: "inline" }]);
 
+    const modalView = document.getElementById('modal_view');
+
+    document.querySelectorAll('a.projects__item__title')
+        .forEach(link => link.addEventListener('click', e => {
+            e.preventDefault();
+
+            handlerProjectLink(e.currentTarget);
+        }))
+    document.getElementById('close_modal_view').addEventListener('click', closeModalView)
+
+    function handlerProjectLink(target) {
+        const item = target.closest('.projects__item');
+        const projectsSpecsClone = item.querySelector('.projects__specs').cloneNode(true);
+        const projectsSpecsNest = modalView.querySelector('.modal_view__block_right__specs-nest');
+
+        projectsSpecsNest.append(projectsSpecsClone);
+
+        if (modalView.classList.contains('open')) {
+            closeModalView()
+            return
+        }
+
+        // modalView.innerHTML = `
+        //     <div class="modal_view__wrapper">
+        //         <div class="container">
+        //             <div class="modal_view__block_left">
+        //                 <div class="modal_view__block_left__controls">
+        //                     <button class="btn" type="button" id="close_modal_view">close</button>
+        //                     <a href="/" class="logo__link">
+        //                         <img srcset="./images/logo.png, ./images/logo_x2.png x2"
+        //                              src="./images/logo_x2.png"
+        //                              alt=""
+        //                              title=""
+        //                         >
+        //                     </a>
+        //                 </div>
+        //             </div>
+        //             <div class="modal_view__block_right">
+        //                 <div class="modal_view__block_right__top"></div>
+        //                 <div class="modal_view__info">
+        //                 </div>
+        //             </div>
+        //         </div>
+        //     </div>
+        // `;
+        modalView.classList.add('open')
+    }
+
+    function closeModalView() {
+        modalView.classList.remove('open')
+        modalView.querySelector('.modal_view__block_right__specs-nest').innerHTML = '';
+    }
+
     /**
      *
-     * Бургер меню
+     * Бургер меню8`
      */
     document.getElementById('burgerButton')?.addEventListener('click', e => {
         e.preventDefault();
@@ -95,7 +148,7 @@ document.addEventListener('DOMContentLoaded', () => {
      */
     window.addEventListener('scroll', () => {
         const header = document.body.querySelector('header');
-        if(window.scrollY > 0) {
+        if (window.scrollY > 0) {
             !header.classList.contains('shrink') ? header.classList.add('shrink') : null
         } else {
             header.classList.remove('shrink')

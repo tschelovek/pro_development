@@ -15,16 +15,19 @@
     &__text
       gap: 64px
 
+  .contacts__text
+    gap: 60px 80px
+
 @media only screen and (max-width: 1280px)
   .header
     &__navigation
       justify-content: flex-end
-      &__list
-        margin: 0
-        padding: 60px 20px
-        z-index: 15
-        &.active
-          transform: translateY(0)
+      //&__list
+      //  margin: 0
+      //  padding: 60px 20px
+      //  z-index: 15
+      //  &.active
+      //    transform: translateY(0)
       &__controls
         margin-left: 24px
       &__item_contacts
@@ -33,7 +36,6 @@
           display: flex
           flex-flow: column
           gap: 16px
-
 
   .hero
     .title_h1
@@ -64,8 +66,28 @@
       margin: 0 auto
       max-width: 950px
 
+  .contacts
+    padding: 60px 0
+    &__wrapper
+      flex-flow: column
+    &__text
+      flex-flow: column
+    &__map-wrapper
+      translate: unset
+    //&__list__item:nth-child(2)
+    //  flex: 1.4
+
+  .buy__text
+    flex-flow: column
+
+  .footer
+    margin-top: 0
 
 @media only screen and (max-width: 1024px)
+  .header
+    &__menu-wrapper
+      gap: 80px
+
   .hero
     &__wrapper
       flex-flow: column
@@ -78,7 +100,34 @@
     &__image-wrapper
       display: none
 
+  .contacts
+    &__list__item:last-child
+      width: 100%
+      flex: auto
+
 @media only screen and (max-width: 864px)
+  .header
+    .container
+      padding: 0 12px
+    &__menu-wrapper
+      flex-flow: column
+      align-items: initial
+    .btn_blue
+      font-size: 14px
+    &__controls .contacts__link
+      font-size: 14px
+  .buy
+    &__text
+      padding-right: 40px
+    &__block_left
+      padding-left: 40px
+
+  .footer
+    &__wrapper
+      flex-flow: column
+    &__navigation__list
+      flex-flow: column
+      text-align: center
 
 @media only screen and (max-width: 768px)
   .container
@@ -95,14 +144,35 @@
       gap: 0
     .slider__button-wrapper
       margin: 0 auto 24px
+  .buy
+    flex-flow: column
+    &__block
+      &_right
+        width: 100%
+      &_left
+        padding: 90px 16px
+        width: 100%
+        min-width: unset
+        justify-content: center
 
 @media only screen and (max-width: 640px)
   .container
     padding: 0 24px
 
+  .header__controls .contacts__link
+    font-size: 0
+    &::before
+      content: url("./icons/phone.svg")
+
 @media only screen and (max-width: 536px)
   .title_h2
     font-size: 42px
+
+  .header__navigation__item
+    font-size: 32px
+
+  .hero .title_h1
+    font-size: 48px
 
   .about
     &__text
@@ -123,10 +193,27 @@
   .title_h2
     font-size: 36px
 
+  .header
+    &__menu-wrapper
+      .btn_blue
+        display: flex
+    &__controls
+      height: 48px
+      .btn_blue
+        display: none
+
+  .buy
+    &__block_right
+      padding: 60px 20px
+    &__text
+      padding-right: 0
+
   .infrastructure, .projects, .news
     padding: 64px 0
-
 
 @media only screen and (max-width: 360px)
   .container
     padding: 0 8px
+
+  .hero .title_h1
+    font-size: 42px

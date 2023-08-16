@@ -92,15 +92,17 @@
       font-size: 24px
       font-weight: 400
       line-height: 1.4
-      //white-space: nowrap
-
 .infrastructure
   padding: 120px 0
   &__wrapper
     display: flex
     gap: 30px
-  &__image-wrapper img
-    max-width: 100%
+  &__image-wrapper
+    flex: 1
+    img
+      max-width: 100%
+  &__info
+    flex: 1
   &__text
     margin: 30px 0
     max-width: 570px
@@ -129,6 +131,18 @@
           li
             margin-top: 14px
 
+.genplan
+  &__wrapper
+    position: relative
+    overflow: hidden
+    width: auto
+    height: 900px
+    .canvas
+      //width: 100%
+      //height: 826px
+      position: absolute
+      top: 0
+      left: 0
 .projects
   padding: 120px 0
   &__header
@@ -146,12 +160,21 @@
       line-height: 150%
   &__item
     //max-width: 440px
+    position: relative
     &__title
       margin: 30px 0
+      display: block
       color: $black
       font-size: 22px
       font-weight: 700
       line-height: normal
+      &::before
+        content: ''
+        position: absolute
+        top: 0
+        left: 0
+        right: 0
+        bottom: 60px
     &__image-wrapper
       overflow: hidden
       img
@@ -196,6 +219,30 @@
     display: flex
     gap: 40px
     align-items: center
+  &__tabs
+    margin-top: 50px
+    display: flex
+    gap: 30px
+    &__link
+      padding: 8px 30px
+      position: relative
+      font-size: 20px
+      font-weight: 400
+      color: $textGrey
+      &::after
+        content: ""
+        position: absolute
+        bottom: 0
+        right: 0
+        left: 0
+        height: 1px
+        background-color: #E1E1E1
+        transition: width 0.3s
+      &.active
+        font-weight: 700
+        color: $themeColor
+        &::after
+          background-color: $themeColor
 .about
   padding-top: 92px
   &__wrapper
@@ -225,6 +272,100 @@
     overflow: hidden
     img
       max-width: 100%
+
+.buy
+  display: flex
+  width: 100%
+  color: white
+  &__block
+    &_right
+      padding: 96px 0 120px 40px
+      position: relative
+      width: calc((100% - 1400px)/2 + 990px)
+      display: flex
+      justify-content: flex-end
+      background: $black url("../images/bg_granit.png")
+      .title_h2
+        margin-bottom: 40px
+        color: white
+    &_left
+      padding: 90px 40px 110px 80px
+      width: calc((100% - 1400px)/2 + 410px)
+      min-width: 400px
+      display: flex
+      align-items: end
+      background-color: $themeColor
+  &__form
+    &-wrapper
+      max-width: 320px
+    &__title
+      margin-bottom: 10px
+      font-size: 36px
+      font-weight: 400
+      line-height: 1.4
+    &__info
+      font-size: 16px
+      font-weight: 400
+      line-height: 1.5
+    &__input
+      margin-top: 40px
+      padding-left: 10px
+      background-color: transparent
+      border: none
+      border-bottom: 1px solid white
+      height: 36px
+      width: 100%
+      font-family: Montserrat, sans-serif
+      font-size: 16px
+      font-weight: 400
+      color: white
+      &:focus
+        outline: none
+      &::placeholder
+        font-family: Montserrat, sans-serif
+        font-size: 16px
+        font-weight: 400
+        color: white
+    &__policy
+      margin-top: 20px
+      label
+        font-size: 12px
+        font-weight: 300
+        svg
+          max-width: 100%
+          width: auto
+          height: 15px
+        span
+          flex-shrink: 2
+    &__button-wrapper
+      margin-top: 64px
+  &__text
+    padding-right: 80px
+    display: flex
+    gap: 60px 150px
+    max-width: 990px
+  &__descriptor
+    margin-top: 20px
+    white-space: nowrap
+  &__list
+    display: flex
+    flex-flow: wrap
+    gap: 50px 40px
+    &__item
+      flex: 1
+      display: flex
+      min-width: 220px
+      &__text
+        .title_h3
+        margin-bottom: 10px
+        font-size: 18px
+        line-height: 1.5
+        p
+          font-size: 14px
+          line-height: 1.7
+  .btn_transparent
+    width: 100%
+    border: 1px solid white
 
 .news
   padding: 120px 0 200px
@@ -273,37 +414,10 @@
       font-weight: 700
       line-height: 150%
 
-.buy
-  display: flex
-  width: 100%
-  color: white
-  &__block
-    &_right
-      position: relative
-      flex: 2
-      display: flex
-      justify-content: flex-end
-      //background: $black url("../images/bg_stain.png")
-      background-color: $black
-    &_left
-      flex: 1
-      padding: 90px 20px 90px 80px
-      background-color: $themeColor
-  &__text
-    max-width: 990px
-  &__list
-    display: flex
-    flex-flow: wrap
-    gap: 30px
-    &__item
-      flex: 1
-      display: flex
-      min-width: 220px
-
 .contacts
   padding: 180px 0 60px
   position: relative
-  background-color: $black
+  background: #1E2527 url(../images/bg_granit.png)
   color: white
   z-index: 10
   &__wrapper
@@ -312,9 +426,9 @@
   &__text
     flex: 1
     display: flex
+    gap: 60px 140px
   &__descriptor
     padding-top: 12px
-    margin-right: 140px
     font-size: 16px
     font-weight: 400
     line-height: 160%
@@ -326,7 +440,7 @@
     gap: 30px
     &__item
       flex: 1
-      min-width: 140px
+      min-width: 160px
       .title_h3
         margin-bottom: 16px
         font-size: 14px
@@ -339,8 +453,12 @@
         font-size: 16px
         font-weight: 400
         line-height: 150%
-
   &__map-wrapper
     flex: 1
     translate: 0 -260px
+    overflow: hidden
+    img
+      max-inline-size: 100%
+  .title_h2
+    color: white
 
