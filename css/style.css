@@ -651,6 +651,39 @@ input[type=number].no-arrows::-webkit-outer-spin-button, input[type=number].no-a
   top: 0;
   left: 0;
 }
+.genplan__zoom-buttons {
+  position: absolute;
+  top: 40px;
+  right: 40px;
+}
+.genplan__zoom-buttons .btn_zoom {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 74px;
+  height: 74px;
+  border-radius: 50%;
+  border: 1px solid #E1E1E1;
+  background-color: white;
+}
+.genplan__zoom-buttons .btn_zoom div {
+  position: relative;
+  width: 40px;
+  height: 1px;
+  background-color: #1E2527;
+}
+.genplan__zoom-buttons .btn_zoom_plus {
+  margin-bottom: 10px;
+}
+.genplan__zoom-buttons .btn_zoom_plus div::after {
+  content: "";
+  position: absolute;
+  background-color: #1E2527;
+  width: 1px;
+  height: 40px;
+  top: -20px;
+  left: 20px;
+}
 
 .projects {
   padding: 120px 0;
@@ -775,6 +808,9 @@ input[type=number].no-arrows::-webkit-outer-spin-button, input[type=number].no-a
 }
 .gallery__tabs__link.active::after {
   background-color: #61CAE6;
+}
+.gallery #slider_gallery_2 {
+  display: none;
 }
 
 .about {
