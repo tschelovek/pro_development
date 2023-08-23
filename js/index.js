@@ -108,7 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         document.querySelectorAll('section.gallery .swiper')
             .forEach(slider => {
-                    if(slider.dataset.target === target.dataset.tabIndex) {
+                    if (slider.dataset.target === target.dataset.tabIndex) {
                         slider.style.display = 'block'
                         slider.swiper.enable();
                         slider.swiper.update();
@@ -120,6 +120,107 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             )
     }))
+
+    /**
+     * Карта
+     *
+     */
+
+    const ZOOM_INCREMENT = 1.1;
+    const ZOOM_DECREMENT = 0.9;
+    const canvas = document.getElementById('canvas')
+    const zoomPlusBtn = document.getElementById('zoom_plus');
+    const zoomMinusBtn = document.getElementById('zoom_minus');
+    let state = {
+        scale: 1,
+        setScale: ({number, direction}) => {
+            if (direction === 'plus') {
+                state.scale = number
+            } else if (direction === 'minus') {
+                if ((parseInt(canvas.style.width) * number * ZOOM_DECREMENT) <= window.visualViewport.width) {
+                    state.scale = 1;
+                    return
+                }
+                state.scale = number
+            }
+        },
+        getScale: () => {
+            return state.scale
+        }
+    }
+
+    zoomPlusBtn.addEventListener('click', handlerZoomPlusBtn);
+    zoomMinusBtn.addEventListener('click', handlerZoomMinusBtn);
+    canvas.addEventListener('mousedown', handlerMouseDrag);
+    // canvas.addEventListener('mousedown', handlerMouseDrag);
+
+    function handlerZoomPlusBtn() {
+        const viewPortWidth = window.visualViewport.width;
+
+        state.setScale({
+            number: state.getScale() * ZOOM_INCREMENT,
+            direction: 'plus'
+        })
+        // canvas.style.width = (viewPortWidth * state.scale).toString()
+        canvas.style.width === '100%'
+            ? canvas.style.width = `${viewPortWidth}px`
+            : null
+        canvas.style.width = `${(parseInt(canvas.style.width) * state.scale).toString()}px`
+
+        console.log(state)
+    }
+
+    function handlerZoomMinusBtn() {
+        const viewPortWidth = window.visualViewport.width;
+
+        state.setScale({
+            number: state.getScale() * ZOOM_DECREMENT,
+            direction: 'minus'
+        })
+
+        // canvas.style.width = (parseInt(canvas.style.width) * state.scale).toString()
+        canvas.style.width = (viewPortWidth * state.scale).toString()
+
+        console.log(state)
+    }
+
+    canvas.ondragstart = function() {
+        return false;
+    };
+
+    function handlerMouseDrag(event) {
+        const currentCanvasLeft = canvas.style.left;
+        let startCursorOffsetX = event.clientX;
+
+        canvas.addEventListener('mousemove', onMouseMove);
+        canvas.addEventListener('mouseup', stopUsingDrag);
+
+        moveAt(event.pageX, event.pageY);
+
+        function moveAt(pageX, pageY) {
+            canvas.style.left = currentCanvasLeft - startCursorOffsetX + pageX + 'px';
+            // canvas.style.top = canvas.style.top + pageY + 'px';
+            // canvas.style.left = pageX - canvas.offsetWidth + 'px';
+            // canvas.style.top = pageY - canvas.offsetHeight + 'px';
+            // console.log(pageX, pageY)
+        }
+
+        function onMouseMove(ev) {
+            console.log(ev.pageX, ev.pageY)
+            moveAt(ev.pageX, ev.pageY);
+        }
+
+        function stopUsingDrag() {
+            console.log('stop using drag')
+            canvas.removeEventListener('mousemove', onMouseMove);
+            canvas.removeEventListener('mouseup', stopUsingDrag);
+        }
+
+        // canvas.onmouseup = stopUsingDrag;
+    }
+    /**
+     * Конец анимации карты
+     */
 
     // Fancybox.show([{ src: "#dialog-content", type: "inline" }]);
 

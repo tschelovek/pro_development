@@ -647,14 +647,20 @@ input[type=number].no-arrows::-webkit-outer-spin-button, input[type=number].no-a
   height: 900px;
 }
 .genplan__wrapper .canvas {
+  width: 100%;
   position: absolute;
   top: 0;
   left: 0;
+}
+.genplan__wrapper #canvas {
+  position: absolute;
+  z-index: 50;
 }
 .genplan__zoom-buttons {
   position: absolute;
   top: 40px;
   right: 40px;
+  z-index: 100;
 }
 .genplan__zoom-buttons .btn_zoom {
   display: flex;
@@ -666,7 +672,8 @@ input[type=number].no-arrows::-webkit-outer-spin-button, input[type=number].no-a
   border: 1px solid #E1E1E1;
   background-color: white;
 }
-.genplan__zoom-buttons .btn_zoom div {
+.genplan__zoom-buttons .btn_zoom span {
+  display: block;
   position: relative;
   width: 40px;
   height: 1px;
@@ -675,7 +682,7 @@ input[type=number].no-arrows::-webkit-outer-spin-button, input[type=number].no-a
 .genplan__zoom-buttons .btn_zoom_plus {
   margin-bottom: 10px;
 }
-.genplan__zoom-buttons .btn_zoom_plus div::after {
+.genplan__zoom-buttons .btn_zoom_plus span::after {
   content: "";
   position: absolute;
   background-color: #1E2527;
