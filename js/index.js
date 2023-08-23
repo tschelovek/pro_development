@@ -146,13 +146,11 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         getScale: () => {
             return state.scale
-        }
+        },
     }
 
     zoomPlusBtn.addEventListener('click', handlerZoomPlusBtn);
     zoomMinusBtn.addEventListener('click', handlerZoomMinusBtn);
-    canvas.addEventListener('mousedown', handlerMouseDrag);
-    // canvas.addEventListener('mousedown', handlerMouseDrag);
 
     function handlerZoomPlusBtn() {
         const viewPortWidth = window.visualViewport.width;
@@ -184,39 +182,50 @@ document.addEventListener('DOMContentLoaded', () => {
         console.log(state)
     }
 
+    //* Disable browser own drag’n’drop support for images
     canvas.ondragstart = function() {
         return false;
     };
 
+    canvas.addEventListener('mousedown', handlerMouseDrag);
+
     function handlerMouseDrag(event) {
-        const currentCanvasLeft = canvas.style.left;
+        let currentCanvasLeft = Number(canvas.style.left.replace('px', ''));
+        let currentCanvasTop = Number(canvas.style.top.replace('px', ''));
         let startCursorOffsetX = event.clientX;
+        let startCursorOffsetY = event.clientY;
+
+        console.log(canvas.style.left)
+        console.log(currentCanvasLeft)
+        console.log(currentCanvasTop)
+        console.log(startCursorOffsetX)
+        console.log(startCursorOffsetY)
 
         canvas.addEventListener('mousemove', onMouseMove);
         canvas.addEventListener('mouseup', stopUsingDrag);
 
-        moveAt(event.pageX, event.pageY);
+        moveAt(event.clientX, event.clientY);
 
         function moveAt(pageX, pageY) {
+            // console.group(pageX, pageY)
+            // console.log(pageX, pageY)
+            console.log(currentCanvasTop - startCursorOffsetY + pageY + 'px')
             canvas.style.left = currentCanvasLeft - startCursorOffsetX + pageX + 'px';
+            canvas.style.top = currentCanvasTop - startCursorOffsetY + pageY + 'px';
             // canvas.style.top = canvas.style.top + pageY + 'px';
             // canvas.style.left = pageX - canvas.offsetWidth + 'px';
             // canvas.style.top = pageY - canvas.offsetHeight + 'px';
-            // console.log(pageX, pageY)
         }
 
         function onMouseMove(ev) {
-            console.log(ev.pageX, ev.pageY)
-            moveAt(ev.pageX, ev.pageY);
+            moveAt(ev.clientX, ev.clientY);
         }
 
         function stopUsingDrag() {
-            console.log('stop using drag')
             canvas.removeEventListener('mousemove', onMouseMove);
             canvas.removeEventListener('mouseup', stopUsingDrag);
         }
 
-        // canvas.onmouseup = stopUsingDrag;
     }
     /**
      * Конец анимации карты
