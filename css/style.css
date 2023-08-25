@@ -646,15 +646,34 @@ input[type=number].no-arrows::-webkit-outer-spin-button, input[type=number].no-a
   width: auto;
   height: 900px;
 }
-.genplan__wrapper .canvas {
-  width: 100%;
+.genplan__canvas {
   position: absolute;
   top: 0;
   left: 0;
 }
-.genplan__wrapper #canvas {
-  position: absolute;
+.genplan__canvas_svg {
+  width: 100%;
+  height: 100%;
   z-index: 50;
+}
+.genplan__img_background {
+  position: absolute;
+  pointer-events: none;
+}
+.genplan__img_background.bottom {
+  bottom: 0;
+  left: 0;
+  width: 88.5%;
+}
+.genplan__img_background.top-left {
+  top: 0;
+  left: 0;
+  width: 46%;
+}
+.genplan__img_background.top-right {
+  top: 0;
+  right: 0;
+  width: 9.2%;
 }
 .genplan__zoom-buttons {
   position: absolute;

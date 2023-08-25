@@ -128,7 +128,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const ZOOM_INCREMENT = 1.1;
     const ZOOM_DECREMENT = 0.9;
-    const canvas = document.getElementById('canvas')
+    const canvas = document.getElementById('canvas');
+    const canvasSvg = document.getElementById('canvas_svg');
     const zoomPlusBtn = document.getElementById('zoom_plus');
     const zoomMinusBtn = document.getElementById('zoom_minus');
     let state = {
@@ -154,22 +155,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function handlerZoomPlusBtn() {
         const viewPortWidth = window.visualViewport.width;
+        const {width: canvasWidth, height: canvasHeight} = canvas.getBoundingClientRect();
 
         state.setScale({
             number: state.getScale() * ZOOM_INCREMENT,
             direction: 'plus'
         })
         // canvas.style.width = (viewPortWidth * state.scale).toString()
-        canvas.style.width === '100%'
-            ? canvas.style.width = `${viewPortWidth}px`
-            : null
-        canvas.style.width = `${(parseInt(canvas.style.width) * state.scale).toString()}px`
+        // canvas.style.width === '100%'
+        //     ? canvas.style.width = `${viewPortWidth}px`
+        //     : null
+        canvas.style.width = (canvasWidth * state.scale).toString() + 'px';
+        canvas.style.height = (canvasHeight * state.scale).toString() + 'px';
 
         console.log(state)
     }
 
     function handlerZoomMinusBtn() {
         const viewPortWidth = window.visualViewport.width;
+        const {width: canvasWidth, height: canvasHeight} = canvas.getBoundingClientRect();
 
         state.setScale({
             number: state.getScale() * ZOOM_DECREMENT,
@@ -177,44 +181,47 @@ document.addEventListener('DOMContentLoaded', () => {
         })
 
         // canvas.style.width = (parseInt(canvas.style.width) * state.scale).toString()
-        canvas.style.width = (viewPortWidth * state.scale).toString()
+        canvas.style.width = (canvasWidth * state.scale).toString() + 'px';
+        canvas.style.height = (canvasHeight * state.scale).toString() + 'px';
 
         console.log(state)
     }
 
     //* Disable browser own drag’n’drop support for images
-    canvas.ondragstart = function() {
+    canvasSvg.ondragstart = function() {
         return false;
     };
 
     canvas.addEventListener('mousedown', handlerMouseDrag);
 
     function handlerMouseDrag(event) {
-        let currentCanvasLeft = Number(canvas.style.left.replace('px', ''));
-        let currentCanvasTop = Number(canvas.style.top.replace('px', ''));
+        const map = event.currentTarget;
+
+        let currentCanvasLeft = Number(map.style.left.replace('px', ''));
+        let currentCanvasTop = Number(map.style.top.replace('px', ''));
         let startCursorOffsetX = event.clientX;
         let startCursorOffsetY = event.clientY;
 
-        console.log(canvas.style.left)
-        console.log(currentCanvasLeft)
-        console.log(currentCanvasTop)
-        console.log(startCursorOffsetX)
-        console.log(startCursorOffsetY)
-
-        canvas.addEventListener('mousemove', onMouseMove);
-        canvas.addEventListener('mouseup', stopUsingDrag);
+        map.addEventListener('mousemove', onMouseMove);
+        map.addEventListener('mouseup', stopUsingDrag);
 
         moveAt(event.clientX, event.clientY);
 
         function moveAt(pageX, pageY) {
-            // console.group(pageX, pageY)
-            // console.log(pageX, pageY)
-            console.log(currentCanvasTop - startCursorOffsetY + pageY + 'px')
-            canvas.style.left = currentCanvasLeft - startCursorOffsetX + pageX + 'px';
-            canvas.style.top = currentCanvasTop - startCursorOffsetY + pageY + 'px';
-            // canvas.style.top = canvas.style.top + pageY + 'px';
-            // canvas.style.left = pageX - canvas.offsetWidth + 'px';
-            // canvas.style.top = pageY - canvas.offsetHeight + 'px';
+            const { height: mapHeight, width: mapWidth } = map.getBoundingClientRect();
+            const { height: wrapperHeight, width: wrapperWidth } = map.closest('.genplan__wrapper').getBoundingClientRect();
+            let mapOffsetX = currentCanvasLeft - startCursorOffsetX + pageX;
+            let mapOffsetY = currentCanvasTop - startCursorOffsetY + pageY;
+
+            if (mapWidth <= (wrapperWidth - mapOffsetX)) {
+                mapOffsetX = wrapperWidth - mapWidth
+            }
+            if (mapHeight <= (wrapperHeight - mapOffsetY)) {
+                mapOffsetY = wrapperHeight - mapHeight
+            }
+
+            map.style.left = mapOffsetX < 0 ? mapOffsetX + 'px' : '0px';
+            map.style.top = mapOffsetY < 0 ? mapOffsetY + 'px' : '0px';
         }
 
         function onMouseMove(ev) {
@@ -222,11 +229,16 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         function stopUsingDrag() {
-            canvas.removeEventListener('mousemove', onMouseMove);
-            canvas.removeEventListener('mouseup', stopUsingDrag);
+            map.removeEventListener('mousemove', onMouseMove);
+            map.removeEventListener('mouseup', stopUsingDrag);
         }
 
     }
+
+    canvasSvg.querySelector('path[data-landplot]').addEventListener('click', () => {
+        console.log('success')
+    })
+
     /**
      * Конец анимации карты
      */
