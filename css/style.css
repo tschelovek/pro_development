@@ -645,11 +645,13 @@ input[type=number].no-arrows::-webkit-outer-spin-button, input[type=number].no-a
   overflow: hidden;
   width: auto;
   height: 900px;
+  font-size: 0;
 }
 .genplan__canvas {
   position: absolute;
   top: 0;
   left: 0;
+  touch-action: none;
 }
 .genplan__canvas_svg {
   width: 100%;
@@ -659,6 +661,7 @@ input[type=number].no-arrows::-webkit-outer-spin-button, input[type=number].no-a
 .genplan__img_background {
   position: absolute;
   pointer-events: none;
+  user-select: none;
 }
 .genplan__img_background.bottom {
   bottom: 0;
@@ -674,6 +677,11 @@ input[type=number].no-arrows::-webkit-outer-spin-button, input[type=number].no-a
   top: 0;
   right: 0;
   width: 9.2%;
+}
+.genplan__img_background.landplots {
+  top: 27%;
+  left: 31%;
+  width: 63%;
 }
 .genplan__zoom-buttons {
   position: absolute;
@@ -1210,6 +1218,9 @@ input[type=number].no-arrows::-webkit-outer-spin-button, input[type=number].no-a
     margin: 0 auto;
     max-width: 950px;
   }
+  .genplan__wrapper {
+    height: 60vh;
+  }
   .contacts {
     padding: 60px 0;
   }
@@ -1227,6 +1238,9 @@ input[type=number].no-arrows::-webkit-outer-spin-button, input[type=number].no-a
   }
   .footer {
     margin-top: 0;
+  }
+  .projects {
+    padding: 60px 0;
   }
 }
 @media only screen and (max-width: 1024px) {

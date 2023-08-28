@@ -63,9 +63,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const swiper4 = new Swiper('#slider_projects', {
         loop: true,
-        autoplay: {
-            delay: 2000,
-        },
+        // autoplay: {
+        //     delay: 2000,
+        // },
         speed: 1000,
         // pagination: {
         //     el: '.swiper-pagination',
@@ -138,7 +138,7 @@ document.addEventListener('DOMContentLoaded', () => {
             if (direction === 'plus') {
                 state.scale = number
             } else if (direction === 'minus') {
-                if ((parseInt(canvas.style.width) * number * ZOOM_DECREMENT) <= window.visualViewport.width) {
+                if ((parseInt(canvas.style.width) * number ) < window.visualViewport.width) {
                     state.scale = 1;
                     return
                 }
@@ -192,7 +192,8 @@ document.addEventListener('DOMContentLoaded', () => {
         return false;
     };
 
-    canvas.addEventListener('mousedown', handlerMouseDrag);
+    canvas?.addEventListener('mousedown', handlerMouseDrag);
+    canvas?.addEventListener('touchstart', handlerTouchDrag);
 
     function handlerMouseDrag(event) {
         const map = event.currentTarget;
@@ -235,9 +236,51 @@ document.addEventListener('DOMContentLoaded', () => {
 
     }
 
-    canvasSvg.querySelector('path[data-landplot]').addEventListener('click', () => {
-        console.log('success')
-    })
+    function handlerTouchDrag(event) {
+        const map = event.currentTarget;
+
+        let currentCanvasLeft = Number(map.style.left.replace('px', ''));
+        let currentCanvasTop = Number(map.style.top.replace('px', ''));
+        let startCursorOffsetX = event.targetTouches[0].clientX;
+        let startCursorOffsetY = event.targetTouches[0].clientY;
+
+        map.addEventListener('touchmove', onMouseMove);
+        map.addEventListener('touchend', stopUsingDrag);
+
+        moveAt(event.targetTouches[0].clientX, event.targetTouches[0].clientY);
+
+        function moveAt(pageX, pageY) {
+            const { height: mapHeight, width: mapWidth } = map.getBoundingClientRect();
+            const { height: wrapperHeight, width: wrapperWidth } = map.closest('.genplan__wrapper').getBoundingClientRect();
+            let mapOffsetX = currentCanvasLeft - startCursorOffsetX + pageX;
+            let mapOffsetY = currentCanvasTop - startCursorOffsetY + pageY;
+
+            if (mapWidth <= (wrapperWidth - mapOffsetX)) {
+                mapOffsetX = wrapperWidth - mapWidth
+            }
+            if (mapHeight <= (wrapperHeight - mapOffsetY)) {
+                mapOffsetY = wrapperHeight - mapHeight
+            }
+
+            map.style.left = mapOffsetX < 0 ? mapOffsetX + 'px' : '0px';
+            map.style.top = mapOffsetY < 0 ? mapOffsetY + 'px' : '0px';
+        }
+
+        function onMouseMove(ev) {
+            // console.log(ev.targetTouches, ev.targetTouches[0], ev.targetTouches[0].clientX )
+            moveAt(ev.targetTouches[0].clientX, ev.targetTouches[0].clientY);
+        }
+
+        function stopUsingDrag() {
+            map.removeEventListener('mousemove', onMouseMove);
+            map.removeEventListener('mouseup', stopUsingDrag);
+        }
+
+    }
+
+    // canvasSvg.querySelector('path[data-landplot]').addEventListener('click', () => {
+    //     console.log('success')
+    // })
 
     /**
      * Конец анимации карты
@@ -267,29 +310,29 @@ document.addEventListener('DOMContentLoaded', () => {
             return
         }
 
-        const layout = el('container',
-            el('modal_view__wrapper', [
-                    el('modal_view__block_left',
-                        el('modal_view__block_left__controls'), [
-                            el('button.btn', {type: "button", id: "close_modal_view"}, "Close"),
-                            el('a.logo__link', {href: "/"},
-                                el('', {src: "./images/logo_x2.png"}
-                                )
-                            )
-                        ]
-                    ),
-                    el('modal_view__block_right', [
-                            el('modal_view__block_right__controls'),
-                            el('modal_view__block_right__info',
-                                el('modal_view__block_right__specs-nest',
-                                    // projectsSpecsClone
-                                )
-                            )
-                        ]
-                    )
-                ]
-            )
-        )
+        // const layout = el('container',
+        //     el('modal_view__wrapper', [
+        //             el('modal_view__block_left',
+        //                 el('modal_view__block_left__controls'), [
+        //                     el('button.btn', {type: "button", id: "close_modal_view"}, "Close"),
+        //                     el('a.logo__link', {href: "/"},
+        //                         el('', {src: "./images/logo_x2.png"}
+        //                         )
+        //                     )
+        //                 ]
+        //             ),
+        //             el('modal_view__block_right', [
+        //                     el('modal_view__block_right__controls'),
+        //                     el('modal_view__block_right__info',
+        //                         el('modal_view__block_right__specs-nest',
+        //                             // projectsSpecsClone
+        //                         )
+        //                     )
+        //                 ]
+        //             )
+        //         ]
+        //     )
+        // )
 
 
         // <div className="container">
@@ -324,6 +367,20 @@ document.addEventListener('DOMContentLoaded', () => {
         modalView.classList.remove('open')
         modalView.querySelector('.modal_view__block_right__specs-nest').innerHTML = '';
     }
+
+    /**
+     * Popup window on map
+     */
+
+    canvasSvg.querySelector('path[data-landplot="8"]').addEventListener('mouseover', handlerMapPopup)
+
+    function handlerMapPopup(event) {
+        console.log('tst')
+    }
+
+    /**
+     * _END_ popup window on map
+     */
 
     /**
      *
