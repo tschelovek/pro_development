@@ -644,7 +644,7 @@ input[type=number].no-arrows::-webkit-outer-spin-button, input[type=number].no-a
   position: relative;
   overflow: hidden;
   width: auto;
-  height: 900px;
+  height: 826px;
   font-size: 0;
 }
 .genplan__canvas {
@@ -652,6 +652,9 @@ input[type=number].no-arrows::-webkit-outer-spin-button, input[type=number].no-a
   top: 0;
   left: 0;
   touch-action: none;
+  height: 100%;
+  width: auto;
+  aspect-ratio: 1920/825;
 }
 .genplan__canvas_svg {
   width: 100%;

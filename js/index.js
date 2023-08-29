@@ -1,5 +1,3 @@
-// import {el} from './libs/redom.es'
-
 document.addEventListener('DOMContentLoaded', () => {
 
     Fancybox.bind('[data-fancybox]', {
@@ -122,67 +120,62 @@ document.addEventListener('DOMContentLoaded', () => {
     }))
 
     /**
-     * Карта
+     * Карта (зум, перетаскивание)
      *
      */
 
-    const ZOOM_INCREMENT = 1.1;
-    const ZOOM_DECREMENT = 0.9;
     const canvas = document.getElementById('canvas');
     const canvasSvg = document.getElementById('canvas_svg');
     const zoomPlusBtn = document.getElementById('zoom_plus');
     const zoomMinusBtn = document.getElementById('zoom_minus');
     let state = {
-        scale: 1,
-        setScale: ({number, direction}) => {
-            if (direction === 'plus') {
-                state.scale = number
-            } else if (direction === 'minus') {
-                if ((parseInt(canvas.style.width) * number ) < window.visualViewport.width) {
-                    state.scale = 1;
-                    return
-                }
-                state.scale = number
+        zoomStep: 1,
+        getZoomStep: () => {
+            return state.zoomStep
+        },
+        setZoomStep: number => {
+            if (number < 1) {
+                state.zoomStep = 1;
+                return
             }
+            if (number > Object.keys(state.zoomStepRatio).length) {
+                state.zoomStep = Object.keys(state.zoomStepRatio).length;
+                return
+            }
+            state.zoomStep = number;
         },
-        getScale: () => {
-            return state.scale
-        },
+        zoomStepRatio: {
+            1: 1,
+            2: 1.1,
+            3: 1.3,
+            4: 1.5,
+            5: 2
+        }
     }
 
     zoomPlusBtn.addEventListener('click', handlerZoomPlusBtn);
     zoomMinusBtn.addEventListener('click', handlerZoomMinusBtn);
 
     function handlerZoomPlusBtn() {
-        const viewPortWidth = window.visualViewport.width;
-        const {width: canvasWidth, height: canvasHeight} = canvas.getBoundingClientRect();
+        const {height: wrapperHeight} = canvas.closest('.genplan__wrapper').getBoundingClientRect();
 
-        state.setScale({
-            number: state.getScale() * ZOOM_INCREMENT,
-            direction: 'plus'
-        })
-        // canvas.style.width = (viewPortWidth * state.scale).toString()
-        // canvas.style.width === '100%'
-        //     ? canvas.style.width = `${viewPortWidth}px`
-        //     : null
-        canvas.style.width = (canvasWidth * state.scale).toString() + 'px';
-        canvas.style.height = (canvasHeight * state.scale).toString() + 'px';
+        state.setZoomStep(state.getZoomStep() + 1);
+
+        canvas.style.height = (wrapperHeight * state.zoomStepRatio[state.getZoomStep()]).toString() + 'px';
+
+        //TODO Make additional offset to center view frame
 
         console.log(state)
     }
 
     function handlerZoomMinusBtn() {
-        const viewPortWidth = window.visualViewport.width;
-        const {width: canvasWidth, height: canvasHeight} = canvas.getBoundingClientRect();
+        const {height: wrapperHeight} = canvas.closest('.genplan__wrapper').getBoundingClientRect();
 
-        state.setScale({
-            number: state.getScale() * ZOOM_DECREMENT,
-            direction: 'minus'
-        })
+        state.setZoomStep(state.getZoomStep() - 1);
 
-        // canvas.style.width = (parseInt(canvas.style.width) * state.scale).toString()
-        canvas.style.width = (canvasWidth * state.scale).toString() + 'px';
-        canvas.style.height = (canvasHeight * state.scale).toString() + 'px';
+        canvas.style.height = (wrapperHeight * state.zoomStepRatio[state.getZoomStep()]).toString() + 'px';
+
+        //TODO Make empty offset checking
 
         console.log(state)
     }
@@ -267,7 +260,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         function onMouseMove(ev) {
-            // console.log(ev.targetTouches, ev.targetTouches[0], ev.targetTouches[0].clientX )
             moveAt(ev.targetTouches[0].clientX, ev.targetTouches[0].clientY);
         }
 
@@ -290,6 +282,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const modalView = document.getElementById('modal_view');
 
+    /**
+     * Всплывающее окно в слайдере "Проекты"
+     */
+
     document.querySelectorAll('a.projects__item__title')
         .forEach(link => link.addEventListener('click', e => {
             e.preventDefault();
@@ -303,37 +299,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const projectsSpecsClone = item.querySelector('.projects__specs').cloneNode(true);
         const projectsSpecsNest = modalView.querySelector('.modal_view__block_right__specs-nest');
 
-        // projectsSpecsNest.append(projectsSpecsClone);
+        projectsSpecsNest.append(projectsSpecsClone);
 
         if (modalView.classList.contains('open')) {
             closeModalView()
             return
         }
-
-        // const layout = el('container',
-        //     el('modal_view__wrapper', [
-        //             el('modal_view__block_left',
-        //                 el('modal_view__block_left__controls'), [
-        //                     el('button.btn', {type: "button", id: "close_modal_view"}, "Close"),
-        //                     el('a.logo__link', {href: "/"},
-        //                         el('', {src: "./images/logo_x2.png"}
-        //                         )
-        //                     )
-        //                 ]
-        //             ),
-        //             el('modal_view__block_right', [
-        //                     el('modal_view__block_right__controls'),
-        //                     el('modal_view__block_right__info',
-        //                         el('modal_view__block_right__specs-nest',
-        //                             // projectsSpecsClone
-        //                         )
-        //                     )
-        //                 ]
-        //             )
-        //         ]
-        //     )
-        // )
-
 
         // <div className="container">
         //     <div className="modal_view__wrapper">
