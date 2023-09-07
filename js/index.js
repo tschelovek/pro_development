@@ -172,7 +172,7 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         popups: {
             1: {
-                isShown: true
+                isShown: false
             },
         }
     }
@@ -398,18 +398,23 @@ document.addEventListener('DOMContentLoaded', () => {
         function handlerMouseout() {
             target.removeEventListener('mouseout', handlerMouseout);
             state.popups[id].isShown = false
-            setTimeout(() => closePopupMouseout({popup, target}), 1500)
+            setTimeout(() => closePopupMouseout({popup, target}), 1000)
         }
     }
 
     function closePopupMouseout({popup, target, id}) {
         !target ? target = canvasSvg.querySelector(`path[data-landplot="${id}"]`) : null;
         !id ? id = target.dataset.landplot : null;
+        console.log('closePopupMouseout')
+        console.log(!state.popups[id].isShown)
 
-        if (!state.popups[id].isShown) {
-            target.style.fill = 'white';
-            popup.remove()
-        }
+        setTimeout(() => {
+            if (!state.popups[id].isShown) {
+                console.log('setTimeout closePopupMouseout')
+                target.style.fill = '#F5F5F5';
+                popup.remove()
+            }
+        }, 10)
     }
 
     function createPopupWindow(target) {
@@ -449,19 +454,27 @@ document.addEventListener('DOMContentLoaded', () => {
         textBlockDiv.append(titleH3, priceDiv, featuresDiv, button)
         windowDiv.append(image, textBlockDiv);
 
-        windowDiv.addEventListener('mouseover', handlerMouseOver, {once: true});
+        windowDiv.addEventListener('mouseover', handlerMouseOver);
         function handlerMouseOver(event) {
-            console.log('currentTarget', event.currentTarget)
-            console.log('target', event.target)
+            // console.log('currentTarget', event.currentTarget)
+            // console.log('target', event.target)
             const outTarget = event.currentTarget
             state.popups[id].isShown = true
             console.log(state)
 
-            event.currentTarget.addEventListener('mouseout', handlerMouseOut);
+            event.currentTarget.addEventListener('mouseout', handlerMouseOut, {once: true});
             function handlerMouseOut(ev) {
-                const curTarget = ev.target
+                const curTarget = ev.target;
+                // let related = ev.relatedTarget ? ev.relatedTarget.id : "unknown";
+                let related = ev.relatedTarget
                 console.log('curTarget', curTarget)
-                if(curTarget === windowDiv || Array.from(windowDiv.childNodes).includes(curTarget)) {
+                console.log('ev.relatedTarget', ev.relatedTarget)
+                // console.log('related', related)
+                // console.log(windowDiv)
+                // console.log('Array.from', Array.from(windowDiv.childNodes))
+                console.log('windowDiv.querySelectorAll', Array.from(windowDiv.querySelectorAll("*")).includes(related))
+                // if(related === windowDiv || Array.from(windowDiv.childNodes).includes(related)) {
+                if(related === windowDiv || Array.from(windowDiv.querySelectorAll("*")).includes(related)) {
                     console.log('lol')
                     return
                 }
