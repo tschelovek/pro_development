@@ -661,6 +661,9 @@ input[type=number].no-arrows::-webkit-outer-spin-button, input[type=number].no-a
   height: 100%;
   z-index: 50;
 }
+.genplan__canvas_svg path[data-landplot] {
+  transition: fill 0.2s;
+}
 .genplan__img_background {
   position: absolute;
   pointer-events: none;
@@ -720,6 +723,30 @@ input[type=number].no-arrows::-webkit-outer-spin-button, input[type=number].no-a
   height: 40px;
   top: -20px;
   left: 20px;
+}
+.genplan__popup {
+  display: flex;
+  position: absolute;
+  top: 40px;
+  left: 20px;
+  z-index: 100;
+}
+.genplan__popup__info {
+  padding: 20px 40px;
+  background-color: white;
+  font-family: Proxima Nova, sans-serif;
+}
+.genplan__popup__info h3 {
+  font-size: 22px;
+  font-weight: 700;
+  line-height: normal;
+  text-transform: capitalize;
+  color: #61CAE6;
+}
+.genplan__popup__price {
+  color: #666767;
+  font-size: 20px;
+  font-weight: 700;
 }
 
 .projects {

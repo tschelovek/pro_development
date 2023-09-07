@@ -119,6 +119,25 @@ document.addEventListener('DOMContentLoaded', () => {
             )
     }))
 
+    function createHTMLElement({tag, text, classNameArr}) {
+        const element = document.createElement(tag);
+
+        element.textContent = text || '';
+
+        classNameArr.map(styleClass => {
+            styleClass.includes(' ')
+                ? styleClass.split(' ').map(style => element.classList.add(style.toString()))
+                : element.classList.add(styleClass)
+        });
+
+        if (tag === 'button') {
+            element.type = 'button'
+        }
+
+        return element;
+    }
+
+
     /**
      * Карта (зум, перетаскивание)
      *
@@ -150,6 +169,11 @@ document.addEventListener('DOMContentLoaded', () => {
             3: 1.3,
             4: 1.5,
             5: 2
+        },
+        popups: {
+            1: {
+                isShown: true
+            },
         }
     }
 
@@ -181,7 +205,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     //* Disable browser own drag’n’drop support for images
-    canvasSvg.ondragstart = function() {
+    canvasSvg.ondragstart = function () {
         return false;
     };
 
@@ -202,8 +226,11 @@ document.addEventListener('DOMContentLoaded', () => {
         moveAt(event.clientX, event.clientY);
 
         function moveAt(pageX, pageY) {
-            const { height: mapHeight, width: mapWidth } = map.getBoundingClientRect();
-            const { height: wrapperHeight, width: wrapperWidth } = map.closest('.genplan__wrapper').getBoundingClientRect();
+            const {height: mapHeight, width: mapWidth} = map.getBoundingClientRect();
+            const {
+                height: wrapperHeight,
+                width: wrapperWidth
+            } = map.closest('.genplan__wrapper').getBoundingClientRect();
             let mapOffsetX = currentCanvasLeft - startCursorOffsetX + pageX;
             let mapOffsetY = currentCanvasTop - startCursorOffsetY + pageY;
 
@@ -243,8 +270,11 @@ document.addEventListener('DOMContentLoaded', () => {
         moveAt(event.targetTouches[0].clientX, event.targetTouches[0].clientY);
 
         function moveAt(pageX, pageY) {
-            const { height: mapHeight, width: mapWidth } = map.getBoundingClientRect();
-            const { height: wrapperHeight, width: wrapperWidth } = map.closest('.genplan__wrapper').getBoundingClientRect();
+            const {height: mapHeight, width: mapWidth} = map.getBoundingClientRect();
+            const {
+                height: wrapperHeight,
+                width: wrapperWidth
+            } = map.closest('.genplan__wrapper').getBoundingClientRect();
             let mapOffsetX = currentCanvasLeft - startCursorOffsetX + pageX;
             let mapOffsetY = currentCanvasTop - startCursorOffsetY + pageY;
 
@@ -267,7 +297,6 @@ document.addEventListener('DOMContentLoaded', () => {
             map.removeEventListener('mousemove', onMouseMove);
             map.removeEventListener('mouseup', stopUsingDrag);
         }
-
     }
 
     // canvasSvg.querySelector('path[data-landplot]').addEventListener('click', () => {
@@ -278,7 +307,7 @@ document.addEventListener('DOMContentLoaded', () => {
      * Конец анимации карты
      */
 
-    // Fancybox.show([{ src: "#dialog-content", type: "inline" }]);
+        // Fancybox.show([{ src: "#dialog-content", type: "inline" }]);
 
     const modalView = document.getElementById('modal_view');
 
@@ -343,10 +372,107 @@ document.addEventListener('DOMContentLoaded', () => {
      * Popup window on map
      */
 
-    canvasSvg.querySelector('path[data-landplot="8"]').addEventListener('mouseover', handlerMapPopup)
+    canvasSvg.querySelector('path[data-landplot="8"]').addEventListener('mouseover', handlerMapPopup);
 
     function handlerMapPopup(event) {
-        console.log('tst')
+        const target = event.currentTarget;
+        const id = target.dataset.landplot;
+
+        if (state.popups[id]?.isShown === true) {
+            return
+        }
+
+        target.style.fill = '#61CAE6';
+
+        const popup = createPopupWindow(target);
+        canvas.closest('.genplan__wrapper').append(popup);
+
+        Object.hasOwn(state.popups, id)
+            ? state.popups[id].isShown = true
+            : Object.assign(state.popups, {
+                [id]: {isShown: true}
+            })
+
+        target.addEventListener('mouseout', handlerMouseout)
+
+        function handlerMouseout() {
+            target.removeEventListener('mouseout', handlerMouseout);
+            state.popups[id].isShown = false
+            setTimeout(() => closePopupMouseout({popup, target}), 1500)
+        }
+    }
+
+    function closePopupMouseout({popup, target, id}) {
+        !target ? target = canvasSvg.querySelector(`path[data-landplot="${id}"]`) : null;
+        !id ? id = target.dataset.landplot : null;
+
+        if (!state.popups[id].isShown) {
+            target.style.fill = 'white';
+            popup.remove()
+        }
+    }
+
+    function createPopupWindow(target) {
+        const {
+            title,
+            cost,
+            imageSrc,
+            square,
+            floors,
+            bedrooms,
+            garage,
+            landplot: id
+        } = target.dataset;
+        // TODO Переделать на createHTMLElement
+        const windowDiv = document.createElement('div');
+        const image = document.createElement('img');
+        const textBlockDiv = document.createElement('div');
+        const titleH3 = document.createElement('h3');
+        const priceDiv = document.createElement('div');
+        const featuresDiv = document.createElement('div');
+        const button = createHTMLElement({
+            tag: 'button',
+            text: 'Подробнее',
+            classNameArr: ['btn', 'btn_blue'],
+        });
+
+        windowDiv.classList.add('genplan__popup');
+        textBlockDiv.classList.add('genplan__popup__info');
+        priceDiv.classList.add('genplan__popup__price');
+        featuresDiv.classList.add('genplan__popup__features');
+
+        image.src = imageSrc;
+
+        titleH3.textContent = title;
+        priceDiv.textContent = `${formatNumber(cost)} Руб`;
+
+        textBlockDiv.append(titleH3, priceDiv, featuresDiv, button)
+        windowDiv.append(image, textBlockDiv);
+
+        windowDiv.addEventListener('mouseover', handlerMouseOver, {once: true});
+        function handlerMouseOver(event) {
+            console.log('currentTarget', event.currentTarget)
+            console.log('target', event.target)
+            const outTarget = event.currentTarget
+            state.popups[id].isShown = true
+            console.log(state)
+
+            event.currentTarget.addEventListener('mouseout', handlerMouseOut);
+            function handlerMouseOut(ev) {
+                const curTarget = ev.target
+                console.log('curTarget', curTarget)
+                if(curTarget === windowDiv || Array.from(windowDiv.childNodes).includes(curTarget)) {
+                    console.log('lol')
+                    return
+                }
+
+                console.log('tutut')
+                state.popups[id].isShown = false
+                closePopupMouseout({popup: windowDiv, id})
+            }
+        }
+
+        return windowDiv
     }
 
     /**
@@ -377,5 +503,14 @@ document.addEventListener('DOMContentLoaded', () => {
     })
 //*На случай перезагрузки страницы проверяем положение и если надо вешаем скукоживатель на шапку
     if (window.scrollY > 0) document.body.querySelector('header')?.classList.add('shrink')
+    /**
+     * Конец скукоживателя шапки при прокрутке
+     */
+
+    const formatter = new Intl.NumberFormat("ru-RU", {})
+
+    function formatNumber(value) {
+        return formatter.format(Number(value))
+    }
 
 })
