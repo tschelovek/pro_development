@@ -105,7 +105,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const canvas = document.getElementById('canvas');
     const canvasSvg = document.getElementById('canvas_svg');
-    const genplanWrapper = canvas.closest('.genplan__wrapper');
+    const containerGenplan = document.getElementById('gp_container');
+    const genplanWrapper = containerGenplan.querySelector('.genplan__wrapper');
     const zoomPlusBtn = document.getElementById('zoom_plus');
     const zoomMinusBtn = document.getElementById('zoom_minus');
     let state = {
@@ -338,8 +339,6 @@ document.addEventListener('DOMContentLoaded', () => {
     function handlerMapPopup(event) {
         const landplot = event.currentTarget;
         const id = landplot.dataset.landplot;
-        console.log(window)
-        console.log(window)
 
         if (state.popups[id]?.isShown === true) {
             return
@@ -349,11 +348,11 @@ document.addEventListener('DOMContentLoaded', () => {
         landplot.style.fill = '#61CAE6';
 
         const popup = createPopupWindow(landplot);
-        // if(window.innerWidth > 640) {
-        genplanWrapper.append(popup);
-        // } else {
-        //     genplanWrapper.closest('.container_hd').append(popup);
-        // }
+        if(window.innerWidth > 640) {
+            genplanWrapper.append(popup);
+        } else {
+            containerGenplan.append(popup);
+        }
 
         Object.hasOwn(state.popups, id)
             ? state.popups[id].isShown = true
@@ -375,7 +374,7 @@ document.addEventListener('DOMContentLoaded', () => {
             state.popups[key].isShown = false
         }
         landplots.forEach(element => element.style.fill = '#F5F5F5');
-        genplanWrapper.querySelector('.genplan__popup')?.remove()
+        containerGenplan.querySelector('.genplan__popup')?.remove()
     }
 
     function closePopupMouseout({popup, target, id}) {
@@ -466,7 +465,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     /**
-     * Мелкие скрипты
+     * ~~МЕЛКИЕ СКРИПТЫ~~
      * =============
      */
 
@@ -524,7 +523,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (window.scrollY > 0) document.body.querySelector('header')?.classList.add('shrink')
 
     /**
-     * Конец мелких скриптов
+     * ~~КОНЕЦ МЕЛКИХ СКРИПТОВ~~
      * =============
      */
 

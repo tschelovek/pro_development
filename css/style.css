@@ -744,9 +744,13 @@ input[type=number].no-arrows::-webkit-outer-spin-button, input[type=number].no-a
   color: #61CAE6;
 }
 .genplan__popup__price {
+  margin: 6px 0 10px;
   color: #666767;
   font-size: 20px;
   font-weight: 700;
+}
+.genplan__popup img {
+  max-width: 290px;
 }
 
 .projects {
@@ -1362,6 +1366,31 @@ input[type=number].no-arrows::-webkit-outer-spin-button, input[type=number].no-a
   .header__controls .contacts__link::before {
     content: url("./icons/phone.svg");
   }
+  .genplan__popup {
+    position: static;
+    flex-flow: column-reverse;
+    align-items: center;
+    text-align: center;
+  }
+  .genplan__popup .btn {
+    margin: 0 auto;
+  }
+  .genplan__zoom-buttons {
+    top: 20px;
+    right: 20px;
+  }
+  .genplan__zoom-buttons .btn_zoom {
+    width: 56px;
+    height: 56px;
+  }
+  .genplan__zoom-buttons .btn_zoom span {
+    width: 24px;
+  }
+  .genplan__zoom-buttons .btn_zoom_plus span::after {
+    left: 12px;
+    top: -12px;
+    height: 24px;
+  }
 }
 @media only screen and (max-width: 536px) {
   .title_h2 {
@@ -1394,7 +1423,7 @@ input[type=number].no-arrows::-webkit-outer-spin-button, input[type=number].no-a
   .title_h2 {
     font-size: 36px;
   }
-  .header__menu-wrapper .btn_blue {
+  .header__menu-wrapper {
     display: flex;
   }
   .header__controls {

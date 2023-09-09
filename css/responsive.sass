@@ -6,12 +6,14 @@
   .hero
     &__wrapper
       gap: 80px
+
     .title_h1
       font-size: 72px
 
   .about
     &__wrapper
       gap: 64px
+
     &__text
       gap: 64px
 
@@ -30,8 +32,10 @@
       //    transform: translateY(0)
       &__controls
         margin-left: 24px
+
       &__item_contacts
         display: unset
+
         .contacts__list
           display: flex
           flex-flow: column
@@ -43,11 +47,13 @@
 
   .about
     padding: 80px 0
+
     &__text
       padding: 0
 
   .advantages
     padding: 140px 0
+
     &__list
       padding: 0 60px
       grid-template-columns: 1fr 1fr
@@ -55,12 +61,16 @@
 
   .infrastructure
     padding: 80px 0
+
     &__wrapper
       flex-flow: column-reverse
+
     &__image-wrapper
       text-align: center
+
     &__text
       max-width: unset
+
     &__list
       margin: 0 auto
       max-width: 950px
@@ -71,14 +81,17 @@
 
   .contacts
     padding: 60px 0
+
     &__wrapper
       flex-flow: column
+
     &__text
       flex-flow: column
+
     &__map-wrapper
       translate: unset
-    //&__list__item:nth-child(2)
-    //  flex: 1.4
+  //&__list__item:nth-child(2)
+  //  flex: 1.4
 
   .buy__text
     flex-flow: column
@@ -97,12 +110,14 @@
   .hero
     &__wrapper
       flex-flow: column
+
     .title_h1
       max-width: unset
 
   .about
     &__text
       max-width: unset
+
     &__image-wrapper
       display: none
 
@@ -115,22 +130,27 @@
   .header
     .container
       padding: 0 12px
+
     &__menu-wrapper
       flex-flow: column
       align-items: initial
+
     .btn_blue
       font-size: 14px
+
     &__controls .contacts__link
       font-size: 14px
   .buy
     &__text
       padding-right: 40px
+
     &__block_left
       padding-left: 40px
 
   .footer
     &__wrapper
       flex-flow: column
+
     &__navigation__list
       flex-flow: column
       text-align: center
@@ -141,6 +161,7 @@
 
   .advantages
     padding: 96px 0
+
     &__list
       padding: 0 24px
 
@@ -148,13 +169,16 @@
     &__header
       flex-flow: column
       gap: 0
+
     .slider__button-wrapper
       margin: 0 auto 24px
   .buy
     flex-flow: column
+
     &__block
       &_right
         width: 100%
+
       &_left
         padding: 90px 16px
         width: 100%
@@ -167,8 +191,32 @@
 
   .header__controls .contacts__link
     font-size: 0
+
     &::before
       content: url("./icons/phone.svg")
+
+  .genplan
+    &__popup
+      position: static
+      flex-flow: column-reverse
+      align-items: center
+      text-align: center
+
+      .btn
+        margin: 0 auto
+
+    &__zoom-buttons
+      top: 20px
+      right: 20px
+      .btn_zoom
+        width: 56px
+        height: 56px
+        span
+          width: 24px
+        &_plus span::after
+          left: 12px
+          top: -12px
+          height: 24px
 
 @media only screen and (max-width: 536px)
   .title_h2
@@ -183,11 +231,13 @@
   .about
     &__text
       flex-flow: column
+
     .container_hd
       padding: 0 8px
 
   .advantages
     padding: 64px 0
+
     &__list
       padding: 0 16px
       grid-template-columns: auto
@@ -202,15 +252,18 @@
   .header
     &__menu-wrapper
       .btn_blue
-        display: flex
+      display: flex
+
     &__controls
       height: 48px
+
       .btn_blue
         display: none
 
   .buy
     &__block_right
       padding: 60px 20px
+
     &__text
       padding-right: 0
 
