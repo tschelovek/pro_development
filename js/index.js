@@ -1,5 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
 
+    /**
+     * Инициализация плагинов
+     */
     Fancybox.bind('[data-fancybox]', {
         hideScrollbar: false,
     });
@@ -92,51 +95,8 @@ document.addEventListener('DOMContentLoaded', () => {
     })
 
     /**
-     * Переключение слайдеров в разделе "Галерея"
+     * Конец инициализации плагинов
      */
-    const tabButtons = document.querySelectorAll('section.gallery button[data-tab-index]');
-
-    tabButtons.forEach(tabBtn => tabBtn.addEventListener('click', e => {
-        const target = e.currentTarget;
-
-        if (target.classList.contains('active')) return;
-
-        tabButtons.forEach(btn => btn.classList.remove('active'));
-        target.classList.add('active');
-
-        document.querySelectorAll('section.gallery .swiper')
-            .forEach(slider => {
-                    if (slider.dataset.target === target.dataset.tabIndex) {
-                        slider.style.display = 'block'
-                        slider.swiper.enable();
-                        slider.swiper.update();
-                        slider.swiper.autoplay.resume();
-                    } else {
-                        slider.swiper.disable();
-                        slider.style.display = 'none'
-                    }
-                }
-            )
-    }))
-
-    function createHTMLElement({tag, text, classNameArr}) {
-        const element = document.createElement(tag);
-
-        element.textContent = text || '';
-
-        classNameArr.map(styleClass => {
-            styleClass.includes(' ')
-                ? styleClass.split(' ').map(style => element.classList.add(style.toString()))
-                : element.classList.add(styleClass)
-        });
-
-        if (tag === 'button') {
-            element.type = 'button'
-        }
-
-        return element;
-    }
-
 
     /**
      * Карта (зум, перетаскивание)
@@ -145,6 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const canvas = document.getElementById('canvas');
     const canvasSvg = document.getElementById('canvas_svg');
+    const genplanWrapper = canvas.closest('.genplan__wrapper');
     const zoomPlusBtn = document.getElementById('zoom_plus');
     const zoomMinusBtn = document.getElementById('zoom_minus');
     let state = {
@@ -181,7 +142,7 @@ document.addEventListener('DOMContentLoaded', () => {
     zoomMinusBtn.addEventListener('click', handlerZoomMinusBtn);
 
     function handlerZoomPlusBtn() {
-        const {height: wrapperHeight} = canvas.closest('.genplan__wrapper').getBoundingClientRect();
+        const {height: wrapperHeight} = genplanWrapper.getBoundingClientRect();
 
         state.setZoomStep(state.getZoomStep() + 1);
 
@@ -193,7 +154,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function handlerZoomMinusBtn() {
-        const {height: wrapperHeight} = canvas.closest('.genplan__wrapper').getBoundingClientRect();
+        const {height: wrapperHeight} = genplanWrapper.getBoundingClientRect();
 
         state.setZoomStep(state.getZoomStep() - 1);
 
@@ -230,7 +191,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const {
                 height: wrapperHeight,
                 width: wrapperWidth
-            } = map.closest('.genplan__wrapper').getBoundingClientRect();
+            } = genplanWrapper.getBoundingClientRect();
             let mapOffsetX = currentCanvasLeft - startCursorOffsetX + pageX;
             let mapOffsetY = currentCanvasTop - startCursorOffsetY + pageY;
 
@@ -274,7 +235,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const {
                 height: wrapperHeight,
                 width: wrapperWidth
-            } = map.closest('.genplan__wrapper').getBoundingClientRect();
+            } = genplanWrapper.getBoundingClientRect();
             let mapOffsetX = currentCanvasLeft - startCursorOffsetX + pageX;
             let mapOffsetY = currentCanvasTop - startCursorOffsetY + pageY;
 
@@ -307,13 +268,12 @@ document.addEventListener('DOMContentLoaded', () => {
      * Конец анимации карты
      */
 
-        // Fancybox.show([{ src: "#dialog-content", type: "inline" }]);
-
-    const modalView = document.getElementById('modal_view');
 
     /**
      * Всплывающее окно в слайдере "Проекты"
      */
+
+    const modalView = document.getElementById('modal_view');
 
     document.querySelectorAll('a.projects__item__title')
         .forEach(link => link.addEventListener('click', e => {
@@ -372,20 +332,28 @@ document.addEventListener('DOMContentLoaded', () => {
      * Popup window on map
      */
 
-    canvasSvg.querySelector('path[data-landplot="8"]').addEventListener('mouseover', handlerMapPopup);
+    const landplots = canvasSvg.querySelectorAll('path[data-landplot]');
+    landplots.forEach(landplot => landplot.addEventListener('mouseover', handlerMapPopup));
 
     function handlerMapPopup(event) {
-        const target = event.currentTarget;
-        const id = target.dataset.landplot;
+        const landplot = event.currentTarget;
+        const id = landplot.dataset.landplot;
+        console.log(window)
+        console.log(window)
 
         if (state.popups[id]?.isShown === true) {
             return
         }
 
-        target.style.fill = '#61CAE6';
+        closeOtherPopups();
+        landplot.style.fill = '#61CAE6';
 
-        const popup = createPopupWindow(target);
-        canvas.closest('.genplan__wrapper').append(popup);
+        const popup = createPopupWindow(landplot);
+        // if(window.innerWidth > 640) {
+        genplanWrapper.append(popup);
+        // } else {
+        //     genplanWrapper.closest('.container_hd').append(popup);
+        // }
 
         Object.hasOwn(state.popups, id)
             ? state.popups[id].isShown = true
@@ -393,28 +361,34 @@ document.addEventListener('DOMContentLoaded', () => {
                 [id]: {isShown: true}
             })
 
-        target.addEventListener('mouseout', handlerMouseout)
+        landplot.addEventListener('mouseout', handlerMouseout, {once: true})
 
         function handlerMouseout() {
-            target.removeEventListener('mouseout', handlerMouseout);
+            // landplot.removeEventListener('mouseout', handlerMouseout);
             state.popups[id].isShown = false
-            setTimeout(() => closePopupMouseout({popup, target}), 1000)
+            setTimeout(() => closePopupMouseout({popup, target: landplot}), 1000)
         }
     }
 
-    function closePopupMouseout({popup, target, id}) {
-        !target ? target = canvasSvg.querySelector(`path[data-landplot="${id}"]`) : null;
-        !id ? id = target.dataset.landplot : null;
-        console.log('closePopupMouseout')
-        console.log(!state.popups[id].isShown)
+    function closeOtherPopups() {
+        for (let key in state.popups) {
+            state.popups[key].isShown = false
+        }
+        landplots.forEach(element => element.style.fill = '#F5F5F5');
+        genplanWrapper.querySelector('.genplan__popup')?.remove()
+    }
 
-        setTimeout(() => {
-            if (!state.popups[id].isShown) {
-                console.log('setTimeout closePopupMouseout')
-                target.style.fill = '#F5F5F5';
+    function closePopupMouseout({popup, target, id}) {
+        target = target || canvasSvg.querySelector(`path[data-landplot="${id}"]`);
+        id = id || target.dataset.landplot;
+
+        if (!state.popups[id].isShown) {
+            try {
                 popup.remove()
+            } finally {
+                target.style.fill = '#F5F5F5';
             }
-        }, 10)
+        }
     }
 
     function createPopupWindow(target) {
@@ -429,7 +403,7 @@ document.addEventListener('DOMContentLoaded', () => {
             landplot: id
         } = target.dataset;
         // TODO Переделать на createHTMLElement
-        const windowDiv = document.createElement('div');
+        const popupDiv = document.createElement('div');
         const image = document.createElement('img');
         const textBlockDiv = document.createElement('div');
         const titleH3 = document.createElement('h3');
@@ -441,7 +415,7 @@ document.addEventListener('DOMContentLoaded', () => {
             classNameArr: ['btn', 'btn_blue'],
         });
 
-        windowDiv.classList.add('genplan__popup');
+        popupDiv.classList.add('genplan__popup');
         textBlockDiv.classList.add('genplan__popup__info');
         priceDiv.classList.add('genplan__popup__price');
         featuresDiv.classList.add('genplan__popup__features');
@@ -449,48 +423,80 @@ document.addEventListener('DOMContentLoaded', () => {
         image.src = imageSrc;
 
         titleH3.textContent = title;
-        priceDiv.textContent = `${formatNumber(cost)} Руб`;
+        priceDiv.textContent = cost
+            ? `${formatNumber(cost)} Руб`
+            : 'Уточните цену у менеджера';
 
         textBlockDiv.append(titleH3, priceDiv, featuresDiv, button)
-        windowDiv.append(image, textBlockDiv);
+        popupDiv.append(image, textBlockDiv);
 
-        windowDiv.addEventListener('mouseover', handlerMouseOver);
+        popupDiv.addEventListener('mouseover', handlerMouseOver);
+
         function handlerMouseOver(event) {
             // console.log('currentTarget', event.currentTarget)
             // console.log('target', event.target)
-            const outTarget = event.currentTarget
-            state.popups[id].isShown = true
+            const outTarget = event.currentTarget;
+            state.popups[id].isShown = true;
             console.log(state)
 
             event.currentTarget.addEventListener('mouseout', handlerMouseOut, {once: true});
+
             function handlerMouseOut(ev) {
-                const curTarget = ev.target;
                 // let related = ev.relatedTarget ? ev.relatedTarget.id : "unknown";
                 let related = ev.relatedTarget
-                console.log('curTarget', curTarget)
                 console.log('ev.relatedTarget', ev.relatedTarget)
-                // console.log('related', related)
-                // console.log(windowDiv)
-                // console.log('Array.from', Array.from(windowDiv.childNodes))
-                console.log('windowDiv.querySelectorAll', Array.from(windowDiv.querySelectorAll("*")).includes(related))
-                // if(related === windowDiv || Array.from(windowDiv.childNodes).includes(related)) {
-                if(related === windowDiv || Array.from(windowDiv.querySelectorAll("*")).includes(related)) {
-                    console.log('lol')
+                if (related === popupDiv
+                    || Array.from(popupDiv.querySelectorAll("*")).includes(related)
+                ) {
                     return
                 }
 
                 console.log('tutut')
                 state.popups[id].isShown = false
-                closePopupMouseout({popup: windowDiv, id})
+                closePopupMouseout({popup: popupDiv, id})
             }
         }
 
-        return windowDiv
+        return popupDiv
     }
 
     /**
-     * _END_ popup window on map
+     * END popup window on map
      */
+
+
+    /**
+     * Мелкие скрипты
+     * =============
+     */
+
+    /**
+     * Переключение слайдеров в разделе "Галерея"
+     */
+    const tabButtons = document.querySelectorAll('section.gallery button[data-tab-index]');
+
+    tabButtons.forEach(tabBtn => tabBtn.addEventListener('click', e => {
+        const target = e.currentTarget;
+
+        if (target.classList.contains('active')) return;
+
+        tabButtons.forEach(btn => btn.classList.remove('active'));
+        target.classList.add('active');
+
+        document.querySelectorAll('section.gallery .swiper')
+            .forEach(slider => {
+                    if (slider.dataset.target === target.dataset.tabIndex) {
+                        slider.style.display = 'block'
+                        slider.swiper.enable();
+                        slider.swiper.update();
+                        slider.swiper.autoplay.resume();
+                    } else {
+                        slider.swiper.disable();
+                        slider.style.display = 'none'
+                    }
+                }
+            )
+    }))
 
     /**
      *
@@ -514,10 +520,17 @@ document.addEventListener('DOMContentLoaded', () => {
             header.classList.remove('shrink')
         }
     })
-//*На случай перезагрузки страницы проверяем положение и если надо вешаем скукоживатель на шапку
+    //*На случай перезагрузки страницы проверяем положение и если надо вешаем скукоживатель на шапку
     if (window.scrollY > 0) document.body.querySelector('header')?.classList.add('shrink')
+
     /**
-     * Конец скукоживателя шапки при прокрутке
+     * Конец мелких скриптов
+     * =============
+     */
+
+    /**
+     *
+     * UTILS
      */
 
     const formatter = new Intl.NumberFormat("ru-RU", {})
@@ -526,4 +539,26 @@ document.addEventListener('DOMContentLoaded', () => {
         return formatter.format(Number(value))
     }
 
+    function createHTMLElement({tag, text, classNameArr}) {
+        const element = document.createElement(tag);
+
+        element.textContent = text || '';
+
+        classNameArr.map(styleClass => {
+            styleClass.includes(' ')
+                ? styleClass.split(' ').map(style => element.classList.add(style.toString()))
+                : element.classList.add(styleClass)
+        });
+
+        if (tag === 'button') {
+            element.type = 'button'
+        }
+
+        return element;
+    }
+
+    /**
+     *
+     * END UTILS
+     */
 })
