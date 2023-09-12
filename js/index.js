@@ -99,7 +99,7 @@ document.addEventListener('DOMContentLoaded', () => {
      */
 
     /**
-     * Карта (зум, перетаскивание)
+     * КАРТА (зум, перетаскивание)
      *
      */
 
@@ -110,20 +110,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const zoomPlusBtn = document.getElementById('zoom_plus');
     const zoomMinusBtn = document.getElementById('zoom_minus');
     let state = {
-        zoomStep: 1,
-        getZoomStep: () => {
-            return state.zoomStep
+        get zoomStep() {
+            return this._zoomStep
         },
-        setZoomStep: number => {
+        set zoomStep(number) {
             if (number < 1) {
-                state.zoomStep = 1;
+                this._zoomStep = 1;
                 return
             }
             if (number > Object.keys(state.zoomStepRatio).length) {
-                state.zoomStep = Object.keys(state.zoomStepRatio).length;
+                this._zoomStep = Object.keys(state.zoomStepRatio).length;
                 return
             }
-            state.zoomStep = number;
+            this._zoomStep = number;
         },
         zoomStepRatio: {
             1: 1,
@@ -136,8 +135,12 @@ document.addEventListener('DOMContentLoaded', () => {
             1: {
                 isShown: false
             },
-        }
+        },
+        get isMobile() {
+            return window.innerWidth < 640
+        },
     }
+    state.zoomStep = 1;
 
     zoomPlusBtn.addEventListener('click', handlerZoomPlusBtn);
     zoomMinusBtn.addEventListener('click', handlerZoomMinusBtn);
@@ -145,9 +148,11 @@ document.addEventListener('DOMContentLoaded', () => {
     function handlerZoomPlusBtn() {
         const {height: wrapperHeight} = genplanWrapper.getBoundingClientRect();
 
-        state.setZoomStep(state.getZoomStep() + 1);
+        state.zoomStep++;
 
-        canvas.style.height = (wrapperHeight * state.zoomStepRatio[state.getZoomStep()]).toString() + 'px';
+        const deltaHeight = wrapperHeight * (state.zoomStepRatio[state.zoomStep] - 1);
+        canvas.style.height = (wrapperHeight * state.zoomStepRatio[state.zoomStep]).toString() + 'px';
+        // canvas.style.top =+ deltaHeight / 2;
 
         //TODO Make additional offset to center view frame
 
@@ -155,15 +160,22 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function handlerZoomMinusBtn() {
-        const {height: wrapperHeight} = genplanWrapper.getBoundingClientRect();
+        const {height: wrapperHeight, width: wrapperWidth} = genplanWrapper.getBoundingClientRect();
 
-        state.setZoomStep(state.getZoomStep() - 1);
+        state.zoomStep--;
 
-        canvas.style.height = (wrapperHeight * state.zoomStepRatio[state.getZoomStep()]).toString() + 'px';
+        canvas.style.height = (wrapperHeight * state.zoomStepRatio[state.zoomStep]).toString() + 'px';
 
-        //TODO Make empty offset checking
-
-        console.log(state)
+        //* Убираем пустые отступы справа и снизу
+        const {height: canvasHeight, width: canvasWidth} = canvas.getBoundingClientRect();
+        const currentCanvasLeft = parseInt(canvas.style.left);
+        const currentCanvasTop = parseInt(canvas.style.top);
+        if (canvasWidth - currentCanvasLeft > wrapperWidth) {
+            canvas.style.left = wrapperWidth - canvasWidth + 'px'
+        }
+        if (canvasHeight - currentCanvasTop > wrapperHeight) {
+            canvas.style.top = wrapperHeight - canvasHeight + 'px'
+        }
     }
 
     //* Disable browser own drag’n’drop support for images
@@ -177,8 +189,8 @@ document.addEventListener('DOMContentLoaded', () => {
     function handlerMouseDrag(event) {
         const map = event.currentTarget;
 
-        let currentCanvasLeft = Number(map.style.left.replace('px', ''));
-        let currentCanvasTop = Number(map.style.top.replace('px', ''));
+        let currentCanvasLeft = parseInt(map.style.left);
+        let currentCanvasTop = parseInt(map.style.top);
         let startCursorOffsetX = event.clientX;
         let startCursorOffsetY = event.clientY;
 
@@ -261,76 +273,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // canvasSvg.querySelector('path[data-landplot]').addEventListener('click', () => {
-    //     console.log('success')
-    // })
-
     /**
-     * Конец анимации карты
-     */
-
-
-    /**
-     * Всплывающее окно в слайдере "Проекты"
-     */
-
-    const modalView = document.getElementById('modal_view');
-
-    document.querySelectorAll('a.projects__item__title')
-        .forEach(link => link.addEventListener('click', e => {
-            e.preventDefault();
-
-            handlerProjectLink(e.currentTarget);
-        }))
-    document.getElementById('close_modal_view').addEventListener('click', closeModalView)
-
-    function handlerProjectLink(target) {
-        const item = target.closest('.projects__item');
-        const projectsSpecsClone = item.querySelector('.projects__specs').cloneNode(true);
-        const projectsSpecsNest = modalView.querySelector('.modal_view__block_right__specs-nest');
-
-        projectsSpecsNest.append(projectsSpecsClone);
-
-        if (modalView.classList.contains('open')) {
-            closeModalView()
-            return
-        }
-
-        // <div className="container">
-        //     <div className="modal_view__wrapper">
-        //         <div className="modal_view__block_left">
-        //             <div className="modal_view__block_left__controls">
-        //                 <button className="btn" type="button" id="close_modal_view">close</button>
-        //                 <a href="/" className="logo__link">
-        //                     <img srcSet="./images/logo.png, ./images/logo_x2.png x2"
-        //                          src="./images/logo_x2.png"
-        //                          alt=""
-        //                          title=""
-        //                     >
-        //                 </a>
-        //             </div>
-        //         </div>
-        //         <div className="modal_view__block_right">
-        //             <div className="modal_view__block_right__controls">
-        //
-        //             </div>
-        //             <div className="modal_view__block_right__info">
-        //                 <div className="modal_view__block_right__specs-nest"></div>
-        //             </div>
-        //         </div>
-        //     </div>
-        // </div>
-
-        modalView.classList.add('open')
-    }
-
-    function closeModalView() {
-        modalView.classList.remove('open')
-        modalView.querySelector('.modal_view__block_right__specs-nest').innerHTML = '';
-    }
-
-    /**
-     * Popup window on map
+     * Popup земельных участков
      */
 
     const landplots = canvasSvg.querySelectorAll('path[data-landplot]');
@@ -348,10 +292,10 @@ document.addEventListener('DOMContentLoaded', () => {
         landplot.style.fill = '#61CAE6';
 
         const popup = createPopupWindow(landplot);
-        if(window.innerWidth > 640) {
-            genplanWrapper.append(popup);
-        } else {
+        if(state.isMobile) {
             containerGenplan.append(popup);
+        } else {
+            genplanWrapper.append(popup);
         }
 
         Object.hasOwn(state.popups, id)
@@ -363,7 +307,6 @@ document.addEventListener('DOMContentLoaded', () => {
         landplot.addEventListener('mouseout', handlerMouseout, {once: true})
 
         function handlerMouseout() {
-            // landplot.removeEventListener('mouseout', handlerMouseout);
             state.popups[id].isShown = false
             setTimeout(() => closePopupMouseout({popup, target: landplot}), 1000)
         }
@@ -401,27 +344,20 @@ document.addEventListener('DOMContentLoaded', () => {
             garage,
             landplot: id
         } = target.dataset;
-        // TODO Переделать на createHTMLElement
-        const popupDiv = document.createElement('div');
-        const image = document.createElement('img');
-        const textBlockDiv = document.createElement('div');
-        const titleH3 = document.createElement('h3');
-        const priceDiv = document.createElement('div');
-        const featuresDiv = document.createElement('div');
+        const popupDiv = createHTMLElement({tag: 'div', classNameArr:['genplan__popup']});
+        const textBlockDiv = createHTMLElement({tag: 'div', classNameArr:['genplan__popup__info']});
+        const titleH3 = createHTMLElement({tag: 'div', text: title});
+        const priceDiv = createHTMLElement({tag: 'div', classNameArr:['genplan__popup__price']});
+        const featuresDiv = createHTMLElement({tag: 'div', classNameArr:['genplan__popup__features']});
         const button = createHTMLElement({
             tag: 'button',
             text: 'Подробнее',
             classNameArr: ['btn', 'btn_blue'],
         });
-
-        popupDiv.classList.add('genplan__popup');
-        textBlockDiv.classList.add('genplan__popup__info');
-        priceDiv.classList.add('genplan__popup__price');
-        featuresDiv.classList.add('genplan__popup__features');
+        const image = document.createElement('img');
 
         image.src = imageSrc;
 
-        titleH3.textContent = title;
         priceDiv.textContent = cost
             ? `${formatNumber(cost)} Руб`
             : 'Уточните цену у менеджера';
@@ -432,25 +368,18 @@ document.addEventListener('DOMContentLoaded', () => {
         popupDiv.addEventListener('mouseover', handlerMouseOver);
 
         function handlerMouseOver(event) {
-            // console.log('currentTarget', event.currentTarget)
-            // console.log('target', event.target)
-            const outTarget = event.currentTarget;
             state.popups[id].isShown = true;
-            console.log(state)
 
             event.currentTarget.addEventListener('mouseout', handlerMouseOut, {once: true});
 
             function handlerMouseOut(ev) {
-                // let related = ev.relatedTarget ? ev.relatedTarget.id : "unknown";
-                let related = ev.relatedTarget
-                console.log('ev.relatedTarget', ev.relatedTarget)
+                let related = ev.relatedTarget;
                 if (related === popupDiv
                     || Array.from(popupDiv.querySelectorAll("*")).includes(related)
                 ) {
                     return
                 }
 
-                console.log('tutut')
                 state.popups[id].isShown = false
                 closePopupMouseout({popup: popupDiv, id})
             }
@@ -460,15 +389,73 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     /**
-     * END popup window on map
+     * END popup земельных участков
+     */
+    /**
+     * Конец анимации карты
      */
 
+    /**
+     * Всплывающее окно в слайдере "Проекты"
+     */
+
+    const FALLBACK_IMG_SRC = './some/image.jpg'
+    const modalView = document.getElementById('modal_view');
+
+    document.querySelectorAll('a.projects__item__title')
+        .forEach(link => link.addEventListener('click', e => {
+            e.preventDefault();
+
+            handlerProjectLink(e);
+        }))
+
+    function handlerProjectLink(e) {
+        const item = e.currentTarget.closest('.projects__item');
+        const btnClose = document.getElementById('close_modal_view');
+        const projectsSpecsClone = item.querySelector('.projects__specs').cloneNode(true);
+        const projectsSpecsNest = modalView.querySelector('.modal_view__block_right__specs-nest');
+        const img = document.createElement('img');
+
+        img.src = item.querySelector('[data-image]')?.dataset.image || FALLBACK_IMG_SRC;
+
+        modalView.querySelector('.modal_view__block_left__content__image').append(img);
+        projectsSpecsNest.append(projectsSpecsClone);
+
+        if (modalView.classList.contains('open')) {
+            closeModalView()
+            // return
+        }
+
+        btnClose.addEventListener('click', handlerCloseBtn);
+        document.addEventListener('keydown', handlerEsc);
+        setTimeout(() => modalView.addEventListener('click', handlerOutclick), 50);
+
+        modalView.classList.add('open');
+
+        function handlerCloseBtn() {
+            closeModalView()
+        }
+        function handlerEsc(event) {
+            if (event.key === "Escape") closeModalView()
+        }
+        function handlerOutclick(event) {
+            if (event.target === event.currentTarget) closeModalView()
+        }
+
+        function closeModalView() {
+            btnClose.removeEventListener('click', handlerCloseBtn);
+            document.removeEventListener('keydown', handlerEsc);
+            modalView.removeEventListener('click', handlerOutclick);
+            modalView.classList.remove('open');
+            modalView.querySelector('.modal_view__block_right__specs-nest').innerHTML = '';
+            modalView.querySelector('.modal_view__block_left__content__image').innerHTML = '';
+        }
+    }
 
     /**
      * ~~МЕЛКИЕ СКРИПТЫ~~
      * =============
      */
-
     /**
      * Переключение слайдеров в разделе "Галерея"
      */
@@ -543,7 +530,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         element.textContent = text || '';
 
-        classNameArr.map(styleClass => {
+        classNameArr?.map(styleClass => {
             styleClass.includes(' ')
                 ? styleClass.split(' ').map(style => element.classList.add(style.toString()))
                 : element.classList.add(styleClass)

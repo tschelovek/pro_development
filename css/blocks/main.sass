@@ -170,8 +170,8 @@
       width: 9.2%
     &.landplots
       top: 27%
-      left: 31%
-      width: 63%
+      left: 33%
+      width: 61%
   &__zoom-buttons
     position: absolute
     top: 40px
@@ -225,6 +225,62 @@
       font-weight: 700
     img
       max-width: 290px
+  &__marker
+    position: absolute
+    &_1
+      top: 35%
+      left: 2%
+    &_2
+      top: 4%
+      left: 16%
+    &_3
+      top: 23%
+      left: 21%
+    &_4
+      top: 90%
+      left: 43%
+    &_5
+      top: 6%
+      left: 45%
+    &_6
+      top: 8%
+      left: 52%
+    &_7
+      top: 40%
+      left: 24%
+      .genplan__marker__img
+        width: 88px
+        height: 88px
+    &__img
+      width: 46px
+      height: 46px
+      -webkit-user-drag: none
+    &__tooltip
+      position: absolute
+      padding: 8px 12px
+      background-color: white
+      color: $textGrey
+      font-family: Montserrat, sans-serif
+      font-size: 20px
+      font-weight: 700
+      opacity: 0
+      transition: opacity 0.3s ease-in-out
+      z-index: 70
+      white-space: nowrap
+      &.right
+        left: 100%
+        top: 50%
+        transform: translateY(-50%)
+      &.bottom
+        top: 100%
+        left: 50%
+        transform: translateX(-50%)
+      &.top
+        bottom: 100%
+        left: 50%
+        transform: translateX(-50%)
+    &:hover .genplan__marker__tooltip
+      opacity: 1
 
 .projects
   padding: 120px 0
@@ -297,6 +353,7 @@
       &_bedroom::before
         content: url("./icons/bedroom.svg")
 .gallery
+  margin-bottom: 80px
   &__header
     margin-bottom: 40px
     display: flex
@@ -312,6 +369,8 @@
       font-size: 20px
       font-weight: 400
       color: $textGrey
+      background-color: white
+      border: none
       &::after
         content: ""
         position: absolute
@@ -326,8 +385,12 @@
         color: $themeColor
         &::after
           background-color: $themeColor
+      &:hover
+        cursor: pointer
   #slider_gallery_2
     display: none
+  img
+    max-width: 100%
 .about
   padding-top: 92px
   &__wrapper

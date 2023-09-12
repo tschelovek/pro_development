@@ -284,6 +284,7 @@ input[type=number].no-arrows::-webkit-outer-spin-button, input[type=number].no-a
 .slider__btn {
   width: 74px;
   height: 74px;
+  background-color: white;
   -webkit-border-radius: 50%;
   -moz-border-radius: 50%;
   border-radius: 50%;
@@ -363,14 +364,20 @@ input[type=number].no-arrows::-webkit-outer-spin-button, input[type=number].no-a
   background-color: hsla(0, 0%, 0%, 0.7);
 }
 .modal_view__wrapper {
-  display: flex;
+  display: inline-flex;
 }
 .modal_view__block_left {
   padding: 40px;
   background-color: white;
 }
+.modal_view__block_left__content__image {
+  max-width: 666px;
+}
 .modal_view__block_right {
   padding: 40px;
+  display: flex;
+  flex-flow: column;
+  gap: 60px;
   background: #1E2527 url(../images/bg_granit.png);
   color: white;
 }
@@ -379,6 +386,15 @@ input[type=number].no-arrows::-webkit-outer-spin-button, input[type=number].no-a
 }
 .modal_view__block_right .projects__text {
   color: white;
+}
+.modal_view__p {
+  margin-top: auto;
+  color: white;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.5;
+  max-width: 490px;
 }
 
 .notice_checked {
@@ -686,8 +702,8 @@ input[type=number].no-arrows::-webkit-outer-spin-button, input[type=number].no-a
 }
 .genplan__img_background.landplots {
   top: 27%;
-  left: 31%;
-  width: 63%;
+  left: 33%;
+  width: 61%;
 }
 .genplan__zoom-buttons {
   position: absolute;
@@ -751,6 +767,77 @@ input[type=number].no-arrows::-webkit-outer-spin-button, input[type=number].no-a
 }
 .genplan__popup img {
   max-width: 290px;
+}
+.genplan__marker {
+  position: absolute;
+}
+.genplan__marker_1 {
+  top: 35%;
+  left: 2%;
+}
+.genplan__marker_2 {
+  top: 4%;
+  left: 16%;
+}
+.genplan__marker_3 {
+  top: 23%;
+  left: 21%;
+}
+.genplan__marker_4 {
+  top: 90%;
+  left: 43%;
+}
+.genplan__marker_5 {
+  top: 6%;
+  left: 45%;
+}
+.genplan__marker_6 {
+  top: 8%;
+  left: 52%;
+}
+.genplan__marker_7 {
+  top: 40%;
+  left: 24%;
+}
+.genplan__marker_7 .genplan__marker__img {
+  width: 88px;
+  height: 88px;
+}
+.genplan__marker__img {
+  width: 46px;
+  height: 46px;
+  -webkit-user-drag: none;
+}
+.genplan__marker__tooltip {
+  position: absolute;
+  padding: 8px 12px;
+  background-color: white;
+  color: #666767;
+  font-family: Montserrat, sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+  z-index: 70;
+  white-space: nowrap;
+}
+.genplan__marker__tooltip.right {
+  left: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+}
+.genplan__marker__tooltip.bottom {
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.genplan__marker__tooltip.top {
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.genplan__marker:hover .genplan__marker__tooltip {
+  opacity: 1;
 }
 
 .projects {
@@ -842,6 +929,9 @@ input[type=number].no-arrows::-webkit-outer-spin-button, input[type=number].no-a
   content: url("./icons/bedroom.svg");
 }
 
+.gallery {
+  margin-bottom: 80px;
+}
 .gallery__header {
   margin-bottom: 40px;
   display: flex;
@@ -859,6 +949,8 @@ input[type=number].no-arrows::-webkit-outer-spin-button, input[type=number].no-a
   font-size: 20px;
   font-weight: 400;
   color: #666767;
+  background-color: white;
+  border: none;
 }
 .gallery__tabs__link::after {
   content: "";
@@ -877,8 +969,14 @@ input[type=number].no-arrows::-webkit-outer-spin-button, input[type=number].no-a
 .gallery__tabs__link.active::after {
   background-color: #61CAE6;
 }
+.gallery__tabs__link:hover {
+  cursor: pointer;
+}
 .gallery #slider_gallery_2 {
   display: none;
+}
+.gallery img {
+  max-width: 100%;
 }
 
 .about {
@@ -1342,6 +1440,13 @@ input[type=number].no-arrows::-webkit-outer-spin-button, input[type=number].no-a
   }
   .projects .slider__button-wrapper {
     margin: 0 auto 24px;
+  }
+  .gallery__header {
+    flex-flow: column;
+    text-align: center;
+  }
+  .gallery__header .slider__button-wrapper {
+    margin: 20px 0 0;
   }
   .buy {
     flex-flow: column;
