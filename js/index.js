@@ -103,6 +103,9 @@ document.addEventListener('DOMContentLoaded', () => {
      *
      */
 
+    const COLOR_IN_SELL = '#61CAE6';
+    const COLOR_SOLD_OUT = '#a9a9a9';
+    const SOLD_OUT_TEXT = 'Коттедж продан';
     const canvas = document.getElementById('canvas');
     const canvasSvg = document.getElementById('canvas_svg');
     const containerGenplan = document.getElementById('gp_container');
@@ -132,9 +135,6 @@ document.addEventListener('DOMContentLoaded', () => {
             5: 2
         },
         popups: {
-            1: {
-                isShown: false
-            },
         },
         get isMobile() {
             return window.innerWidth < 640
@@ -150,13 +150,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         state.zoomStep++;
 
-        const deltaHeight = wrapperHeight * (state.zoomStepRatio[state.zoomStep] - 1);
         canvas.style.height = (wrapperHeight * state.zoomStepRatio[state.zoomStep]).toString() + 'px';
-        // canvas.style.top =+ deltaHeight / 2;
-
-        //TODO Make additional offset to center view frame
-
-        console.log(state)
     }
 
     function handlerZoomMinusBtn() {
@@ -289,7 +283,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         closeOtherPopups();
-        landplot.style.fill = '#61CAE6';
+        landplot.style.fill = landplot.dataset?.soldout === 'true'
+            ? COLOR_SOLD_OUT
+            : COLOR_IN_SELL
 
         const popup = createPopupWindow(landplot);
         if(state.isMobile) {
@@ -342,11 +338,13 @@ document.addEventListener('DOMContentLoaded', () => {
             floors,
             bedrooms,
             garage,
+            optionToShow,
+            soldout,
             landplot: id
         } = target.dataset;
         const popupDiv = createHTMLElement({tag: 'div', classNameArr:['genplan__popup']});
         const textBlockDiv = createHTMLElement({tag: 'div', classNameArr:['genplan__popup__info']});
-        const titleH3 = createHTMLElement({tag: 'div', text: title});
+        const titleH3 = createHTMLElement({tag: 'h3', text: title});
         const priceDiv = createHTMLElement({tag: 'div', classNameArr:['genplan__popup__price']});
         const featuresDiv = createHTMLElement({tag: 'div', classNameArr:['genplan__popup__features']});
         const button = createHTMLElement({
@@ -358,11 +356,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
         image.src = imageSrc;
 
-        priceDiv.textContent = cost
-            ? `${formatNumber(cost)} Руб`
-            : 'Уточните цену у менеджера';
+        if (soldout === 'true') {
+            priceDiv.textContent = SOLD_OUT_TEXT;
+        } else {
+            priceDiv.textContent = cost
+                ? `${formatNumber(cost)} Руб`
+                : 'Уточните цену у менеджера';
 
-        textBlockDiv.append(titleH3, priceDiv, featuresDiv, button)
+            switch (optionToShow) {
+                case 'square':
+                    featuresDiv.textContent = `${square} м2`
+                    break;
+                case 'floors':
+                    featuresDiv.textContent = `количество этажей: ${floors}`
+                    break;
+                case 'bedrooms':
+                    featuresDiv.textContent = `количество спален: ${bedrooms}`
+                    break;
+                case 'garage':
+                    featuresDiv.textContent = garage === 'true' ? 'гараж есть' : 'гаража нет'
+                    break
+            }
+        }
+
+        textBlockDiv.append(titleH3, priceDiv, featuresDiv, button);
         popupDiv.append(image, textBlockDiv);
 
         popupDiv.addEventListener('mouseover', handlerMouseOver);

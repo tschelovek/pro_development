@@ -102,6 +102,13 @@
   .projects
     padding: 60px 0
 
+  .modal_view
+    &__block
+      &_left
+        padding: 40px
+      &_right
+        padding: 60px 40px
+
 @media only screen and (max-width: 1024px)
   .header
     &__menu-wrapper
@@ -154,6 +161,25 @@
     &__navigation__list
       flex-flow: column
       text-align: center
+
+  .modal_view
+    &__wrapper
+      flex-flow: column
+    &__h2
+      margin: 20px 0
+      font-size: 20px
+    &__p
+      display: none
+    &__block
+      &_right
+        padding: 16px 40px
+        &__controls
+          display: none
+      &_left
+        padding: 16px 40px
+        text-align: center
+        &__content__image img
+          max-height: 220px
 
 @media only screen and (max-width: 768px)
   .container

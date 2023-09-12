@@ -177,6 +177,12 @@ input[type=number].no-arrows::-webkit-outer-spin-button, input[type=number].no-a
   background-color: #61CAE6;
   border: 1px solid #61CAE6;
 }
+.btn_black_transparent {
+  padding: 12px 22px;
+  background-color: transparent;
+  color: white;
+  border: 1px solid white;
+}
 
 .container {
   padding: 0 40px;
@@ -366,25 +372,54 @@ input[type=number].no-arrows::-webkit-outer-spin-button, input[type=number].no-a
 .modal_view__wrapper {
   display: inline-flex;
 }
+.modal_view__h2 {
+  margin: 120px 0 84px;
+  color: #1E2527;
+  font-family: Montserrat, sans-serif;
+  font-size: 48px;
+  font-weight: 400;
+  line-height: 1.05;
+}
 .modal_view__block_left {
-  padding: 40px;
+  padding: 60px 120px 140px;
+  flex: 2.2273781903;
   background-color: white;
+}
+.modal_view__block_left__controls {
+  display: flex;
+  align-items: center;
 }
 .modal_view__block_left__content__image {
   max-width: 666px;
 }
+.modal_view__block_left__content__image img {
+  max-inline-size: 100%;
+}
 .modal_view__block_right {
-  padding: 40px;
+  padding: 110px;
+  flex: 1.8147448015;
   display: flex;
   flex-flow: column;
   gap: 60px;
   background: #1E2527 url(../images/bg_granit.png);
   color: white;
 }
+.modal_view__block_right__controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+.modal_view__block_right__controls a {
+  color: white;
+}
+.modal_view__block_right__info .btn {
+  margin-top: 50px;
+}
 .modal_view__block_right .projects__specs__title {
   color: white;
 }
-.modal_view__block_right .projects__text {
+.modal_view__block_right .projects__specs__text {
   color: white;
 }
 .modal_view__p {
@@ -395,6 +430,30 @@ input[type=number].no-arrows::-webkit-outer-spin-button, input[type=number].no-a
   font-weight: 400;
   line-height: 1.5;
   max-width: 490px;
+}
+.modal_view #close_modal_view {
+  width: 40px;
+  height: 40px;
+  font-size: 0;
+  background-color: white;
+}
+.modal_view #close_modal_view::before {
+  content: "";
+  display: block;
+  background-color: #1E2527;
+  border: none;
+  width: 38px;
+  height: 1px;
+  transform: rotate(45deg);
+}
+.modal_view #close_modal_view::after {
+  content: "";
+  display: block;
+  background-color: #1E2527;
+  border: none;
+  width: 38px;
+  height: 1px;
+  transform: rotate(-45deg);
 }
 
 .notice_checked {
@@ -764,6 +823,13 @@ input[type=number].no-arrows::-webkit-outer-spin-button, input[type=number].no-a
   color: #666767;
   font-size: 20px;
   font-weight: 700;
+}
+.genplan__popup__features {
+  margin-bottom: 16px;
+  color: #666767;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.7;
 }
 .genplan__popup img {
   max-width: 290px;
@@ -1374,6 +1440,12 @@ input[type=number].no-arrows::-webkit-outer-spin-button, input[type=number].no-a
   .projects {
     padding: 60px 0;
   }
+  .modal_view__block_left {
+    padding: 40px;
+  }
+  .modal_view__block_right {
+    padding: 60px 40px;
+  }
 }
 @media only screen and (max-width: 1024px) {
   .header__menu-wrapper {
@@ -1422,6 +1494,29 @@ input[type=number].no-arrows::-webkit-outer-spin-button, input[type=number].no-a
   .footer__navigation__list {
     flex-flow: column;
     text-align: center;
+  }
+  .modal_view__wrapper {
+    flex-flow: column;
+  }
+  .modal_view__h2 {
+    margin: 20px 0;
+    font-size: 20px;
+  }
+  .modal_view__p {
+    display: none;
+  }
+  .modal_view__block_right {
+    padding: 16px 40px;
+  }
+  .modal_view__block_right__controls {
+    display: none;
+  }
+  .modal_view__block_left {
+    padding: 16px 40px;
+    text-align: center;
+  }
+  .modal_view__block_left__content__image img {
+    max-height: 220px;
   }
 }
 @media only screen and (max-width: 768px) {
