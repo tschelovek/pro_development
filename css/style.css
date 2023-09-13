@@ -831,6 +831,17 @@ input[type=number].no-arrows::-webkit-outer-spin-button, input[type=number].no-a
   font-weight: 400;
   line-height: 1.7;
 }
+.genplan__popup__insert {
+  margin: 16px 0;
+  font-size: 14px;
+  color: darkgreen;
+}
+.genplan__popup__mortgage {
+  margin: 16px 0;
+  font-size: 14px;
+  font-weight: 700;
+  color: #1E2527;
+}
 .genplan__popup img {
   max-width: 290px;
 }
@@ -904,6 +915,9 @@ input[type=number].no-arrows::-webkit-outer-spin-button, input[type=number].no-a
 }
 .genplan__marker:hover .genplan__marker__tooltip {
   opacity: 1;
+}
+.genplan #gp_inserts {
+  display: none;
 }
 
 .projects {

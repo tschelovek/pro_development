@@ -134,8 +134,7 @@ document.addEventListener('DOMContentLoaded', () => {
             4: 1.5,
             5: 2
         },
-        popups: {
-        },
+        popups: {},
         get isMobile() {
             return window.innerWidth < 640
         },
@@ -288,7 +287,7 @@ document.addEventListener('DOMContentLoaded', () => {
             : COLOR_IN_SELL
 
         const popup = createPopupWindow(landplot);
-        if(state.isMobile) {
+        if (state.isMobile) {
             containerGenplan.append(popup);
         } else {
             genplanWrapper.append(popup);
@@ -333,6 +332,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const {
             title,
             cost,
+            mortgage,
             imageSrc,
             square,
             floors,
@@ -342,11 +342,12 @@ document.addEventListener('DOMContentLoaded', () => {
             soldout,
             landplot: id
         } = target.dataset;
-        const popupDiv = createHTMLElement({tag: 'div', classNameArr:['genplan__popup']});
-        const textBlockDiv = createHTMLElement({tag: 'div', classNameArr:['genplan__popup__info']});
+        const popupDiv = createHTMLElement({tag: 'div', classNameArr: ['genplan__popup']});
+        const textBlockDiv = createHTMLElement({tag: 'div', classNameArr: ['genplan__popup__info']});
         const titleH3 = createHTMLElement({tag: 'h3', text: title});
-        const priceDiv = createHTMLElement({tag: 'div', classNameArr:['genplan__popup__price']});
-        const featuresDiv = createHTMLElement({tag: 'div', classNameArr:['genplan__popup__features']});
+        const priceDiv = createHTMLElement({tag: 'div', classNameArr: ['genplan__popup__price']});
+        const mortgageDiv = createHTMLElement({tag: 'div', classNameArr: ['genplan__popup__mortgage']});
+        const featuresDiv = createHTMLElement({tag: 'div', classNameArr: ['genplan__popup__features']});
         const button = createHTMLElement({
             tag: 'button',
             text: 'Подробнее',
@@ -354,7 +355,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         const image = document.createElement('img');
 
-        image.src = imageSrc;
+
+        image.src = imageSrc || '';
 
         if (soldout === 'true') {
             priceDiv.textContent = SOLD_OUT_TEXT;
@@ -363,23 +365,32 @@ document.addEventListener('DOMContentLoaded', () => {
                 ? `${formatNumber(cost)} Руб`
                 : 'Уточните цену у менеджера';
 
+            if (mortgage) {
+                mortgageDiv.textContent = `Ипотека: от ${formatNumber(mortgage)} руб./мес`;
+            }
+
             switch (optionToShow) {
                 case 'square':
-                    featuresDiv.textContent = `${square} м2`
+                    featuresDiv.textContent = `${square} м2`;
                     break;
                 case 'floors':
-                    featuresDiv.textContent = `количество этажей: ${floors}`
+                    featuresDiv.textContent = `количество этажей: ${floors}`;
                     break;
                 case 'bedrooms':
-                    featuresDiv.textContent = `количество спален: ${bedrooms}`
+                    featuresDiv.textContent = `количество спален: ${bedrooms}`;
                     break;
                 case 'garage':
-                    featuresDiv.textContent = garage === 'true' ? 'гараж есть' : 'гаража нет'
+                    featuresDiv.textContent = garage === 'true' ? 'гараж есть' : 'гаража нет';
                     break
             }
         }
 
-        textBlockDiv.append(titleH3, priceDiv, featuresDiv, button);
+        const insertLayout = document.getElementById('gp_inserts')
+                .querySelector(`.genplan__popup__insert_${id}`)
+                ?.cloneNode(true)
+            || '';
+
+        textBlockDiv.append(titleH3, priceDiv, mortgageDiv, featuresDiv, insertLayout, button);
         popupDiv.append(image, textBlockDiv);
 
         popupDiv.addEventListener('mouseover', handlerMouseOver);
@@ -452,9 +463,11 @@ document.addEventListener('DOMContentLoaded', () => {
         function handlerCloseBtn() {
             closeModalView()
         }
+
         function handlerEsc(event) {
             if (event.key === "Escape") closeModalView()
         }
+
         function handlerOutclick(event) {
             if (event.target === event.currentTarget) closeModalView()
         }
