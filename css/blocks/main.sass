@@ -242,6 +242,11 @@
       max-width: 290px
   &__marker
     position: absolute
+    width: 88px
+    height: 88px
+    display: flex
+    justify-content: center
+    align-items: center
     &_1
       top: 35%
       left: 2%
@@ -263,13 +268,38 @@
     &_7
       top: 40%
       left: 24%
-      .genplan__marker__img
-        width: 88px
-        height: 88px
-    &__img
+    &__icon
+      position: relative
       width: 46px
       height: 46px
+      transition: scale 0.3s
+    &__img
+      position: absolute
+      top: 0
+      left: 0
+      bottom: 0
+      right: 0
       -webkit-user-drag: none
+      max-inline-size: 100%
+      transition: opacity 0.1s
+      &_hovered
+        position: absolute
+        top: 0
+        left: 0
+        bottom: 0
+        right: 0
+        opacity: 0
+        max-inline-size: 100%
+        transition: opacity 0.2s
+    &:hover
+      .genplan__marker
+        &__icon
+          scale: 1.8
+        &__img
+          opacity: 0
+          &_hovered
+            opacity: 1
+
     &__tooltip
       position: absolute
       padding: 8px 12px

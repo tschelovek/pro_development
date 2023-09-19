@@ -847,6 +847,11 @@ input[type=number].no-arrows::-webkit-outer-spin-button, input[type=number].no-a
 }
 .genplan__marker {
   position: absolute;
+  width: 88px;
+  height: 88px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .genplan__marker_1 {
   top: 35%;
@@ -876,14 +881,40 @@ input[type=number].no-arrows::-webkit-outer-spin-button, input[type=number].no-a
   top: 40%;
   left: 24%;
 }
-.genplan__marker_7 .genplan__marker__img {
-  width: 88px;
-  height: 88px;
-}
-.genplan__marker__img {
+.genplan__marker__icon {
+  position: relative;
   width: 46px;
   height: 46px;
+  transition: scale 0.3s;
+}
+.genplan__marker__img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
   -webkit-user-drag: none;
+  max-inline-size: 100%;
+  transition: opacity 0.1s;
+}
+.genplan__marker__img_hovered {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  opacity: 0;
+  max-inline-size: 100%;
+  transition: opacity 0.2s;
+}
+.genplan__marker:hover .genplan__marker__icon {
+  scale: 1.8;
+}
+.genplan__marker:hover .genplan__marker__img {
+  opacity: 0;
+}
+.genplan__marker:hover .genplan__marker__img_hovered {
+  opacity: 1;
 }
 .genplan__marker__tooltip {
   position: absolute;
