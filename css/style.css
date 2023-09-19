@@ -854,28 +854,28 @@ input[type=number].no-arrows::-webkit-outer-spin-button, input[type=number].no-a
   align-items: center;
 }
 .genplan__marker_1 {
-  top: 35%;
-  left: 2%;
+  top: 34%;
+  left: 1%;
 }
 .genplan__marker_2 {
-  top: 4%;
-  left: 16%;
+  top: 2%;
+  left: 14%;
 }
 .genplan__marker_3 {
-  top: 23%;
+  top: 17%;
   left: 21%;
 }
 .genplan__marker_4 {
   top: 90%;
-  left: 43%;
+  left: 42%;
 }
 .genplan__marker_5 {
-  top: 6%;
-  left: 45%;
+  top: 5%;
+  left: 42%;
 }
 .genplan__marker_6 {
-  top: 8%;
-  left: 52%;
+  top: 6%;
+  left: 51%;
 }
 .genplan__marker_7 {
   top: 40%;
@@ -1685,6 +1685,17 @@ input[type=number].no-arrows::-webkit-outer-spin-button, input[type=number].no-a
   }
   .infrastructure, .projects, .news {
     padding: 64px 0;
+  }
+  .genplan__marker {
+    width: 56px;
+    height: 56px;
+  }
+  .genplan__marker__icon {
+    width: 34px;
+    height: 34px;
+  }
+  .genplan__marker__tooltip {
+    font-size: 16px;
   }
 }
 @media only screen and (max-width: 360px) {
