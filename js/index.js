@@ -454,7 +454,7 @@ document.addEventListener('DOMContentLoaded', () => {
         img.src = e.currentTarget.dataset.image || FALLBACK_IMG_SRC;
         if (e.currentTarget.dataset.image2) {
             img2 = document.createElement('img');
-            img2.src = e.currentTarget.dataset.image || FALLBACK_IMG_SRC;
+            img2.src = e.currentTarget.dataset.image2 || FALLBACK_IMG_SRC;
         }
         projectLink.href = e.currentTarget.dataset.link || '/';
 
