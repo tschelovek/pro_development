@@ -183,6 +183,9 @@ input[type=number].no-arrows::-webkit-outer-spin-button, input[type=number].no-a
   color: white;
   border: 1px solid white;
 }
+.btn.project-link {
+  display: inline-block;
+}
 
 .container {
   padding: 0 40px;
@@ -353,24 +356,31 @@ input[type=number].no-arrows::-webkit-outer-spin-button, input[type=number].no-a
   position: fixed;
   top: 0;
   right: 0;
-  bottom: 0;
   left: 0;
   z-index: 1050;
   display: none;
-  overflow: hidden;
+  overflow-x: hidden;
   outline: 0;
   transition: background-color 0.3s;
+  -webkit-text-size-adjust: 100%;
+  -moz-text-size-adjust: none;
+  -ms-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  overscroll-behavior-y: contain;
 }
 .modal_view.open {
   display: flex;
   justify-content: center;
-  align-items: center;
-  overflow-x: hidden;
-  overflow-y: auto;
   background-color: hsla(0, 0%, 0%, 0.7);
+  height: 100%;
+  overflow-y: scroll;
+}
+.modal_view .container {
+  display: flex;
 }
 .modal_view__wrapper {
-  display: inline-flex;
+  margin: auto;
+  display: flex;
 }
 .modal_view__h2 {
   margin: 120px 0 84px;
@@ -475,6 +485,11 @@ input[type=number].no-arrows::-webkit-outer-spin-button, input[type=number].no-a
 .notice_checked:checked + label .svg_check {
   visibility: unset;
   fill: #333333;
+}
+
+.stop-scrolling {
+  height: 100%;
+  overflow: hidden;
 }
 
 .header {

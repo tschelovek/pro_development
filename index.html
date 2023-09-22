@@ -39,7 +39,6 @@
     <header class="header">
         <div class="container">
             <div class="header__wrapper">
-                <!--                <div class="container">-->
                 <div class="header__left-block">
                     <button type="button" id="burgerButton" class="btn_burger header__btn__burger">
                         <span>menu</span>
@@ -63,7 +62,6 @@
                         </button>
                     </div>
                 </div>
-                <!--                </div>-->
             </div>
         </div>
         <div class="header__menu">
@@ -1009,8 +1007,13 @@
                                     <img src="./images/project1.jpg" alt="">
                                 </div>
                                 <div class="projects__item__info">
-                                    <a href="#" class="projects__item__title" data-image="./images/plan1.jpg"><h3>Проект
-                                        дома L212</h3></a>
+                                    <a href="#" class="projects__item__title"
+                                       data-image="./images/plan1.jpg"
+                                       data-image2="./images/plan1.jpg"
+                                       data-link="https://some-link.qu"
+                                    >
+                                        <h3>Проект дома L212</h3>
+                                    </a>
                                     <div class="projects__specs">
                                         <div class="projects__specs__item">
                                             <div class="projects__specs__title">212 м<span class="overline">2</span>
@@ -1535,7 +1538,6 @@
     </footer>
 
 </div>
-<!--<div id="dialog-content" style="display:none;max-width:500px;">-->
 <div id="dialog-content" class="modal">
     <div class="modal__title">Заказать обратный звонок</div>
     <form method="post" action="/webforms/send/" enctype="multipart/form-data" class="modal-form"
@@ -1567,41 +1569,41 @@
 </div>
 <div class="modal_view" id="modal_view" tabindex="-1" role="dialog">
     <div class="container">
-        <div class="modal_view__wrapper">
-            <div class="modal_view__block_left">
-                <div class="modal_view__block_left__controls">
-                    <button class="btn" type="button" id="close_modal_view">close</button>
-                    <a href="/" class="logo__link">
-                        <img src="./images/logo_modal.svg"
-                             alt=""
-                             title=""
-                        >
-                    </a>
+            <div class="modal_view__wrapper">
+                <div class="modal_view__block_left">
+                    <div class="modal_view__block_left__controls">
+                        <button class="btn" type="button" id="close_modal_view">close</button>
+                        <a href="/" class="logo__link">
+                            <img src="./images/logo_modal.svg"
+                                 alt=""
+                                 title=""
+                            >
+                        </a>
+                    </div>
+                    <div class="modal_view__block_left__content">
+                        <h2 class="modal_view__h2">Планировка</h2>
+                        <div class="modal_view__block_left__content__image"></div>
+                    </div>
                 </div>
-                <div class="modal_view__block_left__content">
-                    <h2 class="modal_view__h2">Планировка</h2>
-                    <div class="modal_view__block_left__content__image"></div>
+                <div class="modal_view__block_right">
+                    <div class="modal_view__block_right__controls">
+                        <a href="tel:+78122090144" class="contacts__link">+7 (812) 209-01-44</a>
+                        <button type="button" class="btn btn_blue" data-fancybox data-src="#dialog-content">Отправить
+                            заявку
+                        </button>
+                    </div>
+                    <div class="modal_view__block_right__info">
+                        <div class="modal_view__block_right__specs-nest"></div>
+                        <a href="/" class="btn btn_black_transparent project-link">
+                            Подробное описание
+                        </a>
+                    </div>
+                    <p class="modal_view__p">Готовый коттеджный поселок бизнес-класса «сад времени» расположился вокруг
+                        живописного пруда бауш в петродворцовом районе близ петергофа.</p>
                 </div>
-            </div>
-            <div class="modal_view__block_right">
-                <div class="modal_view__block_right__controls">
-                    <a href="tel:+78122090144" class="contacts__link">+7 (812) 209-01-44</a>
-                    <button type="button" class="btn btn_blue" data-fancybox data-src="#dialog-content">Отправить
-                        заявку
-                    </button>
-                </div>
-                <div class="modal_view__block_right__info">
-                    <div class="modal_view__block_right__specs-nest"></div>
-                    <button type="button" class="btn btn_black_transparent" data-fancybox data-src="#dialog-content">
-                        Отправить
-                        заявку
-                    </button>
-                </div>
-                <p class="modal_view__p">Готовый коттеджный поселок бизнес-класса «сад времени» расположился вокруг
-                    живописного пруда бауш в петродворцовом районе близ петергофа.</p>
             </div>
         </div>
-    </div>
 </div>
 </body>
+
 </html>

@@ -427,7 +427,7 @@ document.addEventListener('DOMContentLoaded', () => {
      * Всплывающее окно в слайдере "Проекты"
      */
 
-    const FALLBACK_IMG_SRC = './some/image.jpg'
+    const FALLBACK_IMG_SRC = ''
     const modalView = document.getElementById('modal_view');
 
     document.querySelectorAll('a.projects__item__title')
@@ -442,23 +442,31 @@ document.addEventListener('DOMContentLoaded', () => {
         const btnClose = document.getElementById('close_modal_view');
         const projectsSpecsClone = item.querySelector('.projects__specs').cloneNode(true);
         const projectsSpecsNest = modalView.querySelector('.modal_view__block_right__specs-nest');
+        const projectLink = modalView.querySelector('a.project-link');
         const img = document.createElement('img');
-
-        img.src = item.querySelector('[data-image]')?.dataset.image || FALLBACK_IMG_SRC;
-
-        modalView.querySelector('.modal_view__block_left__content__image').append(img);
-        projectsSpecsNest.append(projectsSpecsClone);
+        let img2 = '';
 
         if (modalView.classList.contains('open')) {
             closeModalView()
             // return
         }
 
+        img.src = e.currentTarget.dataset.image || FALLBACK_IMG_SRC;
+        if (e.currentTarget.dataset.image2) {
+            img2 = document.createElement('img');
+            img2.src = e.currentTarget.dataset.image || FALLBACK_IMG_SRC;
+        }
+        projectLink.href = e.currentTarget.dataset.link || '/';
+
+        modalView.querySelector('.modal_view__block_left__content__image').append(img, img2);
+        projectsSpecsNest.append(projectsSpecsClone);
+
         btnClose.addEventListener('click', handlerCloseBtn);
         document.addEventListener('keydown', handlerEsc);
         setTimeout(() => modalView.addEventListener('click', handlerOutclick), 50);
 
         modalView.classList.add('open');
+        document.body.classList.add('stop-scrolling');
 
         function handlerCloseBtn() {
             closeModalView()
@@ -477,6 +485,7 @@ document.addEventListener('DOMContentLoaded', () => {
             document.removeEventListener('keydown', handlerEsc);
             modalView.removeEventListener('click', handlerOutclick);
             modalView.classList.remove('open');
+            document.body.classList.remove('stop-scrolling');
             modalView.querySelector('.modal_view__block_right__specs-nest').innerHTML = '';
             modalView.querySelector('.modal_view__block_left__content__image').innerHTML = '';
         }
