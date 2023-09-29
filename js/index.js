@@ -130,9 +130,10 @@ document.addEventListener('DOMContentLoaded', () => {
         zoomStepRatio: {
             1: 1,
             2: 1.1,
-            3: 1.3,
-            4: 1.5,
-            5: 2
+            3: 1.25,
+            4: 1.45,
+            5: 1.7,
+            6: 2,
         },
         popups: {},
         get isMobile() {
@@ -146,27 +147,40 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function handlerZoomPlusBtn() {
         const {height: wrapperHeight} = genplanWrapper.getBoundingClientRect();
+        const {height: initCanvasHeight, width: initCanvasWidth} = canvas.getBoundingClientRect();
 
         state.zoomStep++;
 
         canvas.style.height = (wrapperHeight * state.zoomStepRatio[state.zoomStep]).toString() + 'px';
+
+        const {height: canvasHeight, width: canvasWidth} = canvas.getBoundingClientRect();
+        const currentLeft = canvas.offsetLeft;
+        const currentTop = canvas.offsetTop;
+
+        canvas.style.left = (currentLeft - ((canvasWidth - initCanvasWidth) / 2)).toString() + 'px';
+        canvas.style.top = (currentTop - ((canvasHeight - initCanvasHeight) / 2)).toString() + 'px';
     }
 
     function handlerZoomMinusBtn() {
         const {height: wrapperHeight, width: wrapperWidth} = genplanWrapper.getBoundingClientRect();
+        const {height: initCanvasHeight, width: initCanvasWidth} = canvas.getBoundingClientRect();
 
         state.zoomStep--;
 
         canvas.style.height = (wrapperHeight * state.zoomStepRatio[state.zoomStep]).toString() + 'px';
 
-        //* Убираем пустые отступы справа и снизу
         const {height: canvasHeight, width: canvasWidth} = canvas.getBoundingClientRect();
-        const currentCanvasLeft = parseInt(canvas.style.left);
-        const currentCanvasTop = parseInt(canvas.style.top);
-        if (canvasWidth - currentCanvasLeft > wrapperWidth) {
+        const currentLeft = canvas.offsetLeft;
+        const currentTop = canvas.offsetTop;
+
+        canvas.style.left = (currentLeft + ((initCanvasWidth - canvasWidth) / 2)).toString() + 'px';
+        canvas.style.top = (currentTop + ((initCanvasHeight - canvasHeight) / 2)).toString() + 'px';
+
+        //* Убираем пустые отступы справа и снизу
+        if (canvasWidth + currentLeft < wrapperWidth) {
             canvas.style.left = wrapperWidth - canvasWidth + 'px'
         }
-        if (canvasHeight - currentCanvasTop > wrapperHeight) {
+        if (canvasHeight + currentTop < wrapperHeight) {
             canvas.style.top = wrapperHeight - canvasHeight + 'px'
         }
     }
@@ -176,16 +190,22 @@ document.addEventListener('DOMContentLoaded', () => {
         return false;
     };
 
-    canvas?.addEventListener('mousedown', handlerMouseDrag);
-    canvas?.addEventListener('touchstart', handlerTouchDrag);
+    canvas.addEventListener('mousedown', handlerMouseDrag);
+    //* Если пользователь ИСПОЛЬЗУЕТ тачскрин, меняем тип хэндлера
+    window.addEventListener('touchstart', function () {
+        canvas.removeEventListener('mousedown', handlerMouseDrag);
+        canvas.addEventListener('touchstart', handlerTouchDrag);
+    }, {once: true})
 
     function handlerMouseDrag(event) {
         const map = event.currentTarget;
 
-        let currentCanvasLeft = parseInt(map.style.left);
-        let currentCanvasTop = parseInt(map.style.top);
-        let startCursorOffsetX = event.clientX;
-        let startCursorOffsetY = event.clientY;
+        const currentLeft = parseInt(map.offsetLeft);
+        const currentTop = parseInt(map.offsetTop);
+        // const currentLeft = parseInt(map.style.left) || 0;
+        // const currentTop = parseInt(map.style.top) || 0;
+        const startCursorOffsetX = event.clientX;
+        const startCursorOffsetY = event.clientY;
 
         map.addEventListener('mousemove', onMouseMove);
         map.addEventListener('mouseup', stopUsingDrag);
@@ -198,8 +218,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 height: wrapperHeight,
                 width: wrapperWidth
             } = genplanWrapper.getBoundingClientRect();
-            let mapOffsetX = currentCanvasLeft - startCursorOffsetX + pageX;
-            let mapOffsetY = currentCanvasTop - startCursorOffsetY + pageY;
+            let mapOffsetX = currentLeft - startCursorOffsetX + pageX;
+            let mapOffsetY = currentTop - startCursorOffsetY + pageY;
 
             if (mapWidth <= (wrapperWidth - mapOffsetX)) {
                 mapOffsetX = wrapperWidth - mapWidth
@@ -226,10 +246,12 @@ document.addEventListener('DOMContentLoaded', () => {
     function handlerTouchDrag(event) {
         const map = event.currentTarget;
 
-        let currentCanvasLeft = Number(map.style.left.replace('px', ''));
-        let currentCanvasTop = Number(map.style.top.replace('px', ''));
-        let startCursorOffsetX = event.targetTouches[0].clientX;
-        let startCursorOffsetY = event.targetTouches[0].clientY;
+        // const currentLeft = parseInt(map.style.left) || 0;
+        // const currentTop = parseInt(map.style.top) || 0;
+        const currentLeft = parseInt(map.offsetLeft);
+        const currentTop = parseInt(map.offsetTop);
+        const startCursorOffsetX = event.targetTouches[0].clientX;
+        const startCursorOffsetY = event.targetTouches[0].clientY;
 
         map.addEventListener('touchmove', onMouseMove);
         map.addEventListener('touchend', stopUsingDrag);
@@ -242,8 +264,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 height: wrapperHeight,
                 width: wrapperWidth
             } = genplanWrapper.getBoundingClientRect();
-            let mapOffsetX = currentCanvasLeft - startCursorOffsetX + pageX;
-            let mapOffsetY = currentCanvasTop - startCursorOffsetY + pageY;
+            let mapOffsetX = currentLeft - startCursorOffsetX + pageX;
+            let mapOffsetY = currentTop - startCursorOffsetY + pageY;
 
             if (mapWidth <= (wrapperWidth - mapOffsetX)) {
                 mapOffsetX = wrapperWidth - mapWidth
@@ -340,7 +362,8 @@ document.addEventListener('DOMContentLoaded', () => {
             garage,
             optionToShow,
             soldout,
-            landplot: id
+            landplot: id,
+            href
         } = target.dataset;
         const popupDiv = createHTMLElement({tag: 'div', classNameArr: ['genplan__popup']});
         const textBlockDiv = createHTMLElement({tag: 'div', classNameArr: ['genplan__popup__info']});
@@ -348,15 +371,15 @@ document.addEventListener('DOMContentLoaded', () => {
         const priceDiv = createHTMLElement({tag: 'div', classNameArr: ['genplan__popup__price']});
         const mortgageDiv = createHTMLElement({tag: 'div', classNameArr: ['genplan__popup__mortgage']});
         const featuresDiv = createHTMLElement({tag: 'div', classNameArr: ['genplan__popup__features']});
-        const button = createHTMLElement({
-            tag: 'button',
+        const link = createHTMLElement({
+            tag: 'a',
             text: 'Подробнее',
             classNameArr: ['btn', 'btn_blue'],
         });
         const image = document.createElement('img');
 
-
         image.src = imageSrc || '';
+        link.href = href || '';
 
         if (soldout === 'true') {
             priceDiv.textContent = SOLD_OUT_TEXT;
@@ -390,7 +413,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 ?.cloneNode(true)
             || '';
 
-        textBlockDiv.append(titleH3, priceDiv, mortgageDiv, featuresDiv, insertLayout, button);
+        textBlockDiv.append(titleH3, priceDiv, mortgageDiv, featuresDiv, insertLayout, link);
         popupDiv.append(image, textBlockDiv);
 
         popupDiv.addEventListener('mouseover', handlerMouseOver);

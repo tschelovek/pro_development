@@ -825,6 +825,9 @@ input[type=number].no-arrows::-webkit-outer-spin-button, input[type=number].no-a
   padding: 20px 40px;
   background-color: white;
   font-family: Proxima Nova, sans-serif;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 .genplan__popup__info h3 {
   font-size: 22px;
@@ -832,12 +835,18 @@ input[type=number].no-arrows::-webkit-outer-spin-button, input[type=number].no-a
   line-height: normal;
   text-transform: capitalize;
   color: #61CAE6;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 .genplan__popup__price {
   margin: 6px 0 10px;
   color: #666767;
   font-size: 20px;
   font-weight: 700;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 .genplan__popup__features {
   margin-bottom: 16px;
@@ -845,20 +854,32 @@ input[type=number].no-arrows::-webkit-outer-spin-button, input[type=number].no-a
   font-size: 14px;
   font-weight: 400;
   line-height: 1.7;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 .genplan__popup__insert {
   margin: 16px 0;
   font-size: 14px;
   color: darkgreen;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 .genplan__popup__mortgage {
   margin: 16px 0;
   font-size: 14px;
   font-weight: 700;
   color: #1E2527;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 .genplan__popup img {
   max-width: 290px;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 .genplan__marker {
   position: absolute;
@@ -867,6 +888,9 @@ input[type=number].no-arrows::-webkit-outer-spin-button, input[type=number].no-a
   display: flex;
   justify-content: center;
   align-items: center;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 .genplan__marker_1 {
   top: 34%;
@@ -943,6 +967,9 @@ input[type=number].no-arrows::-webkit-outer-spin-button, input[type=number].no-a
   transition: opacity 0.3s ease-in-out;
   z-index: 70;
   white-space: nowrap;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 .genplan__marker__tooltip.right {
   left: 100%;
@@ -1523,6 +1550,9 @@ input[type=number].no-arrows::-webkit-outer-spin-button, input[type=number].no-a
   .about__image-wrapper {
     display: none;
   }
+  .genplan__canvas {
+    left: -40px;
+  }
   .contacts__list__item:last-child {
     width: 100%;
     flex: auto;
@@ -1547,6 +1577,9 @@ input[type=number].no-arrows::-webkit-outer-spin-button, input[type=number].no-a
   }
   .buy__block_left {
     padding-left: 40px;
+  }
+  .genplan__canvas {
+    left: -100px;
   }
   .footer__wrapper {
     flex-flow: column;
@@ -1603,6 +1636,9 @@ input[type=number].no-arrows::-webkit-outer-spin-button, input[type=number].no-a
   .gallery__header .slider__button-wrapper {
     margin: 20px 0 0;
   }
+  .genplan__canvas {
+    left: -150px;
+  }
   .buy {
     flex-flow: column;
   }
@@ -1634,6 +1670,9 @@ input[type=number].no-arrows::-webkit-outer-spin-button, input[type=number].no-a
   }
   .genplan__popup .btn {
     margin: 0 auto;
+  }
+  .genplan__canvas {
+    left: -240px;
   }
   .genplan__zoom-buttons {
     top: 20px;
@@ -1667,6 +1706,9 @@ input[type=number].no-arrows::-webkit-outer-spin-button, input[type=number].no-a
   }
   .about .container_hd {
     padding: 0 8px;
+  }
+  .genplan__canvas {
+    left: -360px;
   }
   .advantages {
     padding: 64px 0;
@@ -1711,6 +1753,9 @@ input[type=number].no-arrows::-webkit-outer-spin-button, input[type=number].no-a
   }
   .genplan__marker__tooltip {
     font-size: 16px;
+  }
+  .genplan__marker__canvas {
+    left: -480px;
   }
 }
 @media only screen and (max-width: 360px) {
