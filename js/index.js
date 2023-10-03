@@ -120,11 +120,14 @@ document.addEventListener('DOMContentLoaded', () => {
             if (number < 1) {
                 this._zoomStep = 1;
                 return
-            }
-            if (number > Object.keys(state.zoomStepRatio).length) {
-                this._zoomStep = Object.keys(state.zoomStepRatio).length;
+            }        
+            
+            const zoomStepsAmount = Object.keys(state.zoomStepRatio).length;
+            if (number > zoomStepsAmount) {
+                this._zoomStep = zoomStepsAmount;
                 return
             }
+            
             this._zoomStep = number;
         },
         zoomStepRatio: {
@@ -136,7 +139,7 @@ document.addEventListener('DOMContentLoaded', () => {
             6: 2,
         },
         popups: {},
-        get isMobile() {
+        get isMobileSize() {
             return window.innerWidth < 640
         },
     }
@@ -202,8 +205,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const currentLeft = parseInt(map.offsetLeft);
         const currentTop = parseInt(map.offsetTop);
-        // const currentLeft = parseInt(map.style.left) || 0;
-        // const currentTop = parseInt(map.style.top) || 0;
         const startCursorOffsetX = event.clientX;
         const startCursorOffsetY = event.clientY;
 
@@ -246,8 +247,6 @@ document.addEventListener('DOMContentLoaded', () => {
     function handlerTouchDrag(event) {
         const map = event.currentTarget;
 
-        // const currentLeft = parseInt(map.style.left) || 0;
-        // const currentTop = parseInt(map.style.top) || 0;
         const currentLeft = parseInt(map.offsetLeft);
         const currentTop = parseInt(map.offsetTop);
         const startCursorOffsetX = event.targetTouches[0].clientX;
@@ -304,12 +303,13 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         closeOtherPopups();
+
         landplot.style.fill = landplot.dataset?.soldout === 'true'
             ? COLOR_SOLD_OUT
             : COLOR_IN_SELL
 
         const popup = createPopupWindow(landplot);
-        if (state.isMobile) {
+        if (state.isMobileSize) {
             containerGenplan.append(popup);
         } else {
             genplanWrapper.append(popup);
