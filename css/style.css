@@ -735,7 +735,7 @@ input[type=number].no-arrows::-webkit-outer-spin-button, input[type=number].no-a
   overflow: hidden;
   width: auto;
   max-height: 826px;
-  height: 80vh;
+  height: 85vh;
   font-size: 0;
 }
 .genplan__canvas {
@@ -989,6 +989,21 @@ input[type=number].no-arrows::-webkit-outer-spin-button, input[type=number].no-a
 }
 .genplan__marker:hover .genplan__marker__tooltip {
   opacity: 1;
+}
+.genplan__background__popup {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 100;
+}
+.genplan__background__popup .genplan__popup {
+  position: static;
 }
 .genplan #gp_inserts {
   display: none;
