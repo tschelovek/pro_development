@@ -294,6 +294,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const landplots = canvasSvg.querySelectorAll('path[data-landplot]');
     landplots.forEach(landplot => landplot.addEventListener('mouseover', handlerMapPopup));
 
+
     function handlerMapPopup(event) {
         const landplot = event.currentTarget;
         const id = landplot.dataset.landplot;
