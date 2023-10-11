@@ -754,6 +754,13 @@ input[type=number].no-arrows::-webkit-outer-spin-button, input[type=number].no-a
 }
 .genplan__canvas_svg path[data-landplot] {
   transition: fill 0.2s;
+  cursor: pointer;
+}
+.genplan__canvas_svg path[data-landplot]:hover {
+  fill: #61CAE6;
+}
+.genplan__canvas_svg path[data-landplot]:hover[data-soldout=true] {
+  fill: #a9a9a9;
 }
 .genplan__img_background {
   position: absolute;
@@ -1003,7 +1010,38 @@ input[type=number].no-arrows::-webkit-outer-spin-button, input[type=number].no-a
   z-index: 100;
 }
 .genplan__background__popup .genplan__popup {
-  position: static;
+  position: relative;
+}
+.genplan__background__btn_close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  translate: 100% -100%;
+  width: 36px;
+  height: 36px;
+  font-size: 0;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+.genplan__background__btn_close::before, .genplan__background__btn_close::after {
+  content: "";
+  display: block;
+  background-color: white;
+  box-shadow: 0 0 10px 1px black;
+  border: none;
+  width: 38px;
+  height: 1px;
+  transition: box-shadow 0.2s;
+}
+.genplan__background__btn_close::before {
+  transform: rotate(45deg);
+}
+.genplan__background__btn_close::after {
+  transform: rotate(-45deg);
+}
+.genplan__background__btn_close:hover::before, .genplan__background__btn_close:hover::after {
+  box-shadow: 0 0 10px 1px #61CAE6;
 }
 .genplan #gp_inserts {
   display: none;

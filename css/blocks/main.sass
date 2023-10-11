@@ -153,6 +153,12 @@
       z-index: 50
       path[data-landplot]
         transition: fill 0.2s
+        cursor: pointer
+        &:hover
+          fill: $themeColor
+          &[data-soldout="true"]
+            fill: $sold_out
+
   &__img_background
     position: absolute
     pointer-events: none
@@ -354,19 +360,46 @@
         transform: translateX(-50%)
     &:hover .genplan__marker__tooltip
       opacity: 1
-  &__background__popup
-    position: absolute
-    top: 0
-    bottom: 0
-    right: 0
-    left: 0
-    display: flex
-    justify-content: center
-    align-items: center
-    background-color: rgba(0, 0, 0, 0.5)
-    z-index: 100
-    .genplan__popup
-      position: static
+  &__background
+    &__popup
+      position: absolute
+      top: 0
+      bottom: 0
+      right: 0
+      left: 0
+      display: flex
+      justify-content: center
+      align-items: center
+      background-color: rgba(0, 0, 0, 0.5)
+      z-index: 100
+      .genplan__popup
+        position: relative
+    &__btn_close
+      position: absolute
+      top: 0
+      right: 0
+      translate: 100% -100%
+      width: 36px
+      height: 36px
+      font-size: 0
+      background-color: transparent
+      border: none
+      cursor: pointer
+      &::before, &::after
+        content: ""
+        display: block
+        background-color: white
+        box-shadow: 0 0 10px 1px black
+        border: none
+        width: 38px
+        height: 1px
+        transition: box-shadow 0.2s
+      &::before
+        transform: rotate(45deg)
+      &::after
+        transform: rotate(-45deg)
+      &:hover::before, &:hover::after
+        box-shadow: 0 0 10px 1px $themeColor
   #gp_inserts
     display: none
 

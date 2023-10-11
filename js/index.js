@@ -305,21 +305,32 @@ document.addEventListener('DOMContentLoaded', () => {
       containerGenplan.append(popup);
     } else {
       const popupBackground = createHTMLElement({tag: 'div', classNameArr: ['genplan__background__popup']});
-      popupBackground.addEventListener('click', handlerClosePopup);
-      document.addEventListener('keydown', handlerClosePopup);
+      // const btnWrapper = createHTMLElement({tag: 'div', classNameArr: ['genplan__background__btn-wrapper']});
+      const btnClose = createHTMLElement({
+        tag: 'button',
+        text: 'закрыть',
+        classNameArr: ['genplan__background__btn_close']
+      });
 
+      popup.append(btnClose);
       popupBackground.append(popup);
       genplanWrapper.append(popupBackground);
+
+      popupBackground.addEventListener('click', handlerClosePopup);
+      btnClose.addEventListener('click', handlerClosePopup);
+      document.addEventListener('keydown', handlerClosePopup);
 
       function handlerClosePopup(event) {
         if (event.type === "click") {
           closePopups()
           popupBackground.removeEventListener('click', handlerClosePopup);
+          btnClose.removeEventListener('click', handlerClosePopup);
           document.removeEventListener('keydown', handlerClosePopup);
         }
         if (event.type === "keydown" && event.key === "Escape") {
           closePopups()
           popupBackground.removeEventListener('click', handlerClosePopup);
+          btnClose.removeEventListener('click', handlerClosePopup);
           document.removeEventListener('keydown', handlerClosePopup);
         }
       }
@@ -369,12 +380,12 @@ document.addEventListener('DOMContentLoaded', () => {
     for (let key in state.popups) {
       state.popups[key].isShown = false
     }
-    landplots.map(element => element.style.fill = '#F5F5F5');
+    landplots.map(element => element.style.fill = '');
     containerGenplan.querySelector('.genplan__popup')?.remove()
   }
 
   function closePopups() {
-    landplots.map(element => element.style.fill = '#F5F5F5');
+    landplots.map(element => element.style.fill = '');
     containerGenplan.querySelector('.genplan__popup')?.remove()
     containerGenplan.querySelector('.genplan__background__popup')?.remove()
   }
