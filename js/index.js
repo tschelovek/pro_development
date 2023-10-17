@@ -7,6 +7,35 @@ document.addEventListener('DOMContentLoaded', () => {
     hideScrollbar: false,
   });
 
+  const sliderGallery_1 = document.getElementById('slider_gallery_1');
+  const sliderGallery_2 = document.getElementById('slider_gallery_2');
+  const configSliderGallery_1 = {
+    loop: true,
+    autoplay: {
+      delay: 2000,
+    },
+    navigation: {
+      nextEl: '#btn_gallery_1_next',
+      prevEl: '#btn_gallery_1_prev',
+    },
+    speed: 600,
+    slidesPerView: 1,
+  }
+  const configSliderGallery_2 = {
+    loop: true,
+    autoplay: {
+      delay: 2000,
+    },
+    navigation: {
+      nextEl: '#btn_gallery_1_next',
+      prevEl: '#btn_gallery_1_prev',
+    },
+    speed: 600,
+    slidesPerView: 1,
+  }
+
+  let swiperGallery = new Swiper(sliderGallery_1, configSliderGallery_1)
+
   const swiper1 = new Swiper('#slider_news', {
     loop: true,
     // autoplay: {
@@ -34,33 +63,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
   })
-
-  const swiper2 = new Swiper('#slider_gallery_1', {
-    loop: true,
-    autoplay: {
-      delay: 3000,
-    },
-    navigation: {
-      nextEl: '#btn_gallery_1_next',
-      prevEl: '#btn_gallery_1_prev',
-    },
-    speed: 1000,
-    slidesPerView: 1,
-  })
-
-  //* Инициализируем второй слайдер в Галерее и сразу его дисейблим
-  const swiper3 = new Swiper('#slider_gallery_2', {
-    loop: true,
-    autoplay: {
-      delay: 2000,
-    },
-    navigation: {
-      nextEl: '#btn_gallery_2_next',
-      prevEl: '#btn_gallery_2_prev',
-    },
-    speed: 1000,
-    slidesPerView: 1,
-  }).disable()
 
   const swiper4 = new Swiper('#slider_projects', {
     loop: true,
@@ -305,7 +307,6 @@ document.addEventListener('DOMContentLoaded', () => {
       containerGenplan.append(popup);
     } else {
       const popupBackground = createHTMLElement({tag: 'div', classNameArr: ['genplan__background__popup']});
-      // const btnWrapper = createHTMLElement({tag: 'div', classNameArr: ['genplan__background__btn-wrapper']});
       const btnClose = createHTMLElement({
         tag: 'button',
         text: 'закрыть',
@@ -584,19 +585,17 @@ document.addEventListener('DOMContentLoaded', () => {
     tabButtons.forEach(btn => btn.classList.remove('active'));
     target.classList.add('active');
 
-    document.querySelectorAll('section.gallery .swiper')
-      .forEach(slider => {
-          if (slider.dataset.target === target.dataset.tabIndex) {
-            slider.style.display = 'block'
-            slider.swiper.enable();
-            slider.swiper.update();
-            slider.swiper.autoplay.resume();
-          } else {
-            slider.swiper.disable();
-            slider.style.display = 'none'
-          }
-        }
-      )
+    swiperGallery.destroy()
+
+    if (target.dataset.tabIndex === '2') {
+      sliderGallery_1.style.display = 'none'
+      sliderGallery_2.style.display = 'block'
+      swiperGallery = new Swiper(sliderGallery_2, configSliderGallery_2)
+    } else {
+      sliderGallery_2.style.display = 'none'
+      sliderGallery_1.style.display = 'block'
+      swiperGallery = new Swiper(sliderGallery_1, configSliderGallery_1)
+    }
   }))
 
   /**
