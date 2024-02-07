@@ -863,6 +863,15 @@ input[type=number].no-arrows::-webkit-outer-spin-button, input[type=number].no-a
   margin-top: 14px;
 }
 
+.genplan__text {
+  margin-bottom: 40px;
+}
+.genplan__text h2 {
+  margin-bottom: 30px;
+}
+.genplan__text p {
+  margin: 1em 0;
+}
 .genplan__wrapper {
   position: relative;
   overflow: hidden;
