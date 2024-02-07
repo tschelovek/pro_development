@@ -686,27 +686,45 @@ input[type=number].no-arrows::-webkit-outer-spin-button, input[type=number].no-a
 }
 .hero__btn__video-bg {
   position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 48px;
   height: 48px;
   background-color: transparent;
-  border: none;
+  border: 1px solid #999999;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
   cursor: pointer;
   transform: translateY(120px);
 }
-.hero__btn__video-bg[data-play=on] .btn__video-bg_play {
+.hero__btn__video-bg::before, .hero__btn__video-bg::after {
+  content: "";
+  position: absolute;
+  top: 12px;
+  width: 1px;
+  height: 22px;
+  background-color: white;
+  transition: opacity 0.2s;
+  opacity: 0.5;
+}
+.hero__btn__video-bg::before {
+  left: 18px;
+}
+.hero__btn__video-bg::after {
+  right: 18px;
+}
+.hero__btn__video-bg[data-play=on] .btn_play {
   opacity: 0;
 }
-.hero__btn__video-bg[data-play=off] .btn__video-bg_stop {
+.hero__btn__video-bg[data-play=off]::before, .hero__btn__video-bg[data-play=off]::after {
   opacity: 0;
 }
 .hero__btn__video-bg svg {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  transition: opacity 0.2s;
-  opacity: 0.5;
+  width: 24px;
+  height: 24px;
+  transition: opacity 0.1s;
 }
 
 .advantages {
@@ -1543,6 +1561,10 @@ input[type=number].no-arrows::-webkit-outer-spin-button, input[type=number].no-a
   color: #61CAE6;
 }
 
+.hero {
+  background-image: url("../images/hero_x2.webp");
+}
+
 @media only screen and (max-width: 1920px) {
   .about .container_hd {
     padding-left: 20px;
@@ -1805,6 +1827,9 @@ input[type=number].no-arrows::-webkit-outer-spin-button, input[type=number].no-a
   }
 }
 @media only screen and (max-width: 536px) {
+  .hero {
+    background-image: url("../images/hero1_mobile.jpg");
+  }
   .title_h2 {
     font-size: 42px;
   }

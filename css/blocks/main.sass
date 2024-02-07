@@ -91,50 +91,52 @@
       object-fit: cover
   &__btn__video-bg
     position: relative
+    display: flex
+    justify-content: center
+    align-items: center
     width: 48px
     height: 48px
     background-color: transparent
-    border: none
+    border: 1px solid #999999
+    -webkit-border-radius: 50%
+    -moz-border-radius: 50%
+    border-radius: 50%
     cursor: pointer
     transform: translateY(120px)
-    &[data-play="on"]
-      .btn__video-bg_play
-        opacity: 0
-    &[data-play="off"]
-      .btn__video-bg_stop
-        opacity: 0
-    svg
-      width: 100%
-      height: 100%
+    &::before, &::after
+      content: ''
       position: absolute
-      top: 0
-      left: 0
-      //bottom: 0
-      //right: 0
+      top: 12px
+      width: 1px
+      height: 22px
+      background-color: white
       transition: opacity 0.2s
       opacity: 0.5
+    &::before
+      left: 18px
+    &::after
+      right: 18px
+    &[data-play="on"]
+      .btn_play
+        opacity: 0
+    &[data-play="off"]
+      &::before, &::after
+        opacity: 0
+    svg
+      width: 24px
+      height: 24px
+      transition: opacity 0.1s
 
 .advantages
   padding: 200px 0
   background-color: $lightGrey
   &__list
-    //display: flex
-    //flex-flow: wrap
-    //column-gap: 140px
-    //row-gap: 70px
     display: grid
     grid-template-columns: 328px 404px 256px
     justify-content: space-between
     grid-column-gap: 40px
     grid-row-gap: 70px
   &__item
-    //min-width: 220px
-    //&_1, &_4
-    //  flex: 5
-    //&_2, &_5
-    //  flex: 6
-    //&_3, &_6
-    //  flex: 4
     &__icon-wrapper
       display: inline-block
     &__info
