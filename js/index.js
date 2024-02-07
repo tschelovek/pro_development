@@ -101,6 +101,52 @@ document.addEventListener('DOMContentLoaded', () => {
    */
 
   /**
+   * Видео-бекграунд section.hero. Пауза при скролле, кнопка воспроизведения.
+   */
+  const playerButton = document.getElementById('play-btn');
+  const videoHero = document.getElementById('myVideo');
+  const options = {
+    root: null,
+    rootMargin: '0px',
+    threshold: 0.2
+  };
+  const observer = new IntersectionObserver(videoObserver, options);
+  let manualPause = false;
+
+  observer.observe(videoHero);
+  function videoObserver(entries) {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        if (!manualPause) {
+          entry.target.play();
+          playerButton.dataset.play = 'on';
+        }
+      } else {
+        entry.target.pause();
+        playerButton.dataset.play = 'off';
+      }
+    });
+  }
+
+  playerButton.addEventListener('click', handlerPlayerButton);
+  function handlerPlayerButton(event) {
+    const btn = event.currentTarget;
+    if (btn.dataset.play === 'on') {
+      btn.dataset.play = 'off';
+      videoHero.pause();
+      manualPause = true;
+    } else {
+      btn.dataset.play = 'on';
+      videoHero.play();
+    }
+  }
+
+  /**
+   * Конец паузы видео-бекграунд section.hero
+   */
+
+
+  /**
    * КАРТА (зум, перетаскивание)
    *
    */

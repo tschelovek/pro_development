@@ -1,3 +1,7 @@
+@media only screen and (min-width: 2400px)
+.hero
+  background-image: url('../images/hero_x2.webp')
+
 @media only screen and (max-width: 1920px)
   .about .container_hd
     padding-left: 20px
@@ -188,6 +192,9 @@
           max-height: 220px
 
 @media only screen and (max-width: 768px)
+  .hero video
+    display: none
+
   .container
     padding: 0 32px
 
@@ -264,6 +271,9 @@
           height: 24px
 
 @media only screen and (max-width: 536px)
+  .hero
+    background-image: url('../images/hero1_mobile.jpg')
+
   .title_h2
     font-size: 42px
 
@@ -335,3 +345,8 @@
 
   .hero .title_h1
     font-size: 42px
+
+//@media (max-aspect-ratio: 16 / 9)
+  //.hero video, .hero img
+  //  width: 150%
+    //left: -25%
