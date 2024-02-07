@@ -169,6 +169,13 @@ input[type="number"].no-arrows
     font-size: 48px
     font-style: normal
     font-weight: 400
+  &_h3
+    color: #1E2527
+    font-size: 30px
+    font-family: Montserrat, sans-serif
+    font-weight: 400
+    line-height: 1.3
+    margin-bottom: 20px
 
 .backslash
   padding-right: 60px
@@ -373,6 +380,48 @@ input[type="number"].no-arrows
         width: 38px
         height: 1px
         transform: rotate(-45deg)
+  &_default
+    background: #fff
+    border-radius: 3px
+    height: auto
+    position: relative
+    left: auto
+    top: auto
+    text-align: center
+    max-width: 600px
+    padding: 50px
+    width: 100%
+  &__input
+    padding: 12px 20px
+    background: #ffffff
+    width: 100%
+    border: #f3f3f4 1px solid
+    font-family: "Montserrat", sans-serif
+    font-weight: 400
+    font-size: 16px
+    line-height: 1.2
+    -moz-box-shadow: none
+    -webkit-box-shadow: none
+    box-shadow: none
+    -webkit-appearance: none
+  &-form__row
+    margin-bottom: 12px
+    button[type="submit"]
+      margin: 0 auto
+
+.form__policy
+  margin-top: 20px
+  label
+    font-size: 12px
+    font-weight: 300
+    svg
+      max-width: 100%
+      width: auto
+      height: 15px
+    span
+      flex-shrink: 2
+  &__link
+    text-decoration: underline
 
 .notice_checked
   position: absolute
@@ -390,7 +439,6 @@ input[type="number"].no-arrows
   &:checked + label .svg_check
     visibility: unset
     fill: #333333
-
 
 .stop-scrolling
   height: 100%

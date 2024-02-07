@@ -1611,7 +1611,7 @@
                    placeholder="Ваше имя">
             <input class="buy__form__input" type="text" name="buy_phone" id="buy_phone"
                    placeholder="Телефон">
-            <div class="form__row buy__form__policy">
+            <div class="form__row form__policy">
               <input type="checkbox" class="notice_checked" name="notice" id="notice">
               <label class="notice_checked__label white" for="notice">
                 <svg width="17" height="15" viewBox="1 1 16 14" fill="none"
@@ -1781,34 +1781,40 @@
   </footer>
 
 </div>
-<div id="dialog-content" class="modal">
-  <div class="modal__title">Заказать обратный звонок</div>
+<div id="dialog-content" class="modal modal_default">
+  <h2 class="modal__title title_h3">Заказать обратный звонок</h2>
   <form method="post" action="/webforms/send/" enctype="multipart/form-data" class="modal-form"
         data-form-ids="popup">
 
     <input type="hidden" name="system_email_to" value="814">
     <div class="modal-form__row">
-      <input type="text" name="data[new][vashe_imya]" placeholder="Ваше имя" class="form-input " required="">
+      <input type="text" name="data[new][vashe_imya]" placeholder="Ваше имя" class="form-input modal__input" required="">
     </div>
     <div class="modal-form__row">
       <input type="text" name="data[new][nomer_telefona]" placeholder="Номер телефона"
-             class="form-input form-input--tel" required="">
+             class="form-input form-input--tel modal__input" required="">
     </div>
 
-
-    <input type="hidden" name="system_form_id" value="155">
-    <input type="hidden" name="ref_onsuccess" value="/webforms/posted/155">
     <div class="modal-form__row">
-      <label><input type="checkbox" class="notice_cheked" checked="" name="notice"> Отправляя заявку, я
-        соглашаюсь
-        на
-        обработку персональных данных</label>
+      <div class="form__row form__policy">
+        <input type="checkbox" class="notice_checked" name="notice2" id="notice2">
+        <label class="notice_checked__label white" for="notice2">
+          <svg width="17" height="17" viewBox="1 1 16 14" fill="none"
+               xmlns="http://www.w3.org/2000/svg">
+            <rect class="svg_box" x="1" y="1" width="15" height="15" fill="white" stroke="#666666" stroke-width="1"></rect>
+            <path class="svg_check" fill-rule="evenodd" clip-rule="evenodd"
+                  d="M16.6569 1.41421L15.2427 0L6.49991 8.74277L1.41421 3.65708L0 5.07129L5.08569 10.157L5.08501 10.1577L6.49923 11.5719L16.6569 1.41421Z"
+                  fill="#333333"></path>
+          </svg>
+          <span>Отправляя форму, вы даете согласие на обработку <a href="#"
+                                                                   class="form__policy__link">персональных данных</a></span>
+        </label>
+      </div>
     </div>
     <div class="modal-form__row">
-      <input type="submit" class="btn btn_gold-transparent" value="Заказать звонок">
+      <button type="submit" class="btn btn_blue">Заказать звонок</button>
     </div>
   </form>
-  <button data-fancybox-close="" class="fancybox-close-small" title="Close"></button>
 </div>
 <div class="modal_view" id="modal_view" tabindex="-1" role="dialog">
   <div class="container">

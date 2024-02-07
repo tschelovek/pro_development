@@ -188,7 +188,7 @@ document.addEventListener('DOMContentLoaded', () => {
     },
     popups: {},
     get isMobileSize() {
-      return window.innerWidth < 640
+      return window.innerWidth < 768
     },
   }
   state.zoomStep = 1;

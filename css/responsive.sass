@@ -172,24 +172,28 @@
       flex-flow: column
       text-align: center
 
-  .modal_view
-    &__wrapper
-      flex-flow: column
-    &__h2
-      margin: 20px 0
-      font-size: 20px
-    &__p
-      display: none
-    &__block
-      &_right
-        padding: 16px 40px
-        &__controls
-          display: none
-      &_left
-        padding: 16px 40px
-        text-align: center
-        &__content__image img
-          max-height: 220px
+  .modal
+    &_view
+      &__wrapper
+        flex-flow: column
+      &__h2
+        margin: 20px 0
+        font-size: 20px
+      &__p
+        display: none
+      &__block
+        &_right
+          padding: 16px 40px
+          &__controls
+            display: none
+        &_left
+          padding: 16px 40px
+          text-align: center
+          &__content__image img
+            max-height: 220px
+    &_default
+      padding: 30px 20px
+
 
 @media only screen and (max-width: 768px)
   .hero
@@ -222,8 +226,18 @@
       .slider__button-wrapper
         margin: 20px 0 0
 
-  .genplan__canvas
-    left: -150px
+  .genplan
+    &__canvas
+      left: -150px
+    &__marker
+      width: 64px
+      height: 64px
+    &__popup
+      position: static
+      flex-flow: column-reverse
+      align-items: center
+      text-align: center
+
 
   .buy
     flex-flow: column
@@ -250,11 +264,6 @@
 
   .genplan
     &__popup
-      position: static
-      flex-flow: column-reverse
-      align-items: center
-      text-align: center
-
       .btn
         margin: 0 auto
     &__canvas
@@ -332,11 +341,11 @@
     padding: 64px 0
 
   .genplan__marker
-    width: 56px
-    height: 56px
+    width: 42px
+    height: 42px
     &__icon
-      width: 34px
-      height: 34px
+      width: 36px
+      height: 36px
     &__tooltip
       font-size: 16px
     &__canvas
