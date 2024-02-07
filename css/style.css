@@ -1748,6 +1748,9 @@ input[type=number].no-arrows::-webkit-outer-spin-button, input[type=number].no-a
   .hero video {
     display: none;
   }
+  .hero__btn__video-bg {
+    display: none;
+  }
   .container {
     padding: 0 32px;
   }
